@@ -1,0 +1,16 @@
+server:
+  port: 8082
+  context-path: /admin_service
+
+spring:
+  datasource:
+    type: org.apache.commons.dbcp2.BasicDataSource
+    username: root
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1/otms
+
+logging:
+  level:
+    org.springframework:
+      web: DEBUG
+      orm: DEBUG
