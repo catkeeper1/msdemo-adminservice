@@ -10,14 +10,26 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>admin-service-model</artifactId>
+    <packaging>jar</packaging>
+
+    <properties>
+
+        <!-- skip report generation for findbugs, checkstyle... only generate project info report -->
+        <msdemo.skipReportGen>true</msdemo.skipReportGen>
+    </properties>
 
     <dependencies>
+        <!-- this is used to solve compile issue in IDEA only. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <!-- this should be provided in the module that will be packed as Application -->
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
         </dependency>
     </dependencies>
 
+    <reporting>
+        <plugins>
+
+        </plugins>
+    </reporting>
 </project>

@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 
-@Entity(name = "Menu")
+@Entity()
 @Table(name = "MENU")
 public class Menu implements Serializable {
 

@@ -1,6 +1,7 @@
 package org.ckr.msdemo.adminservice.controller;
 
 
+import org.ckr.msdemo.adminservice.annotation.ReadOnlyTransaction;
 import org.ckr.msdemo.adminservice.service.UserService;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class UserController {
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     @ResponseBody
+    @ReadOnlyTransaction
     public UserDetailView getUser(@PathVariable("userId") String userName) {
 
         return this.userService.getUser(userName);

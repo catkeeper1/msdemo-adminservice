@@ -8,9 +8,16 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>admin-service-service</artifactId>
+
+    <properties>
+
+        <!-- skip report generation for findbugs, checkstyle... only generate project info report -->
+        <msdemo.skipReportGen>true</msdemo.skipReportGen>
+    </properties>
+
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -19,10 +26,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>io.springfox</groupId>
@@ -67,4 +74,10 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+
+        </plugins>
+    </reporting>
 </project>

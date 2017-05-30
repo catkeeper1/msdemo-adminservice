@@ -15,15 +15,50 @@
     <artifactId>admin-service</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <url>http://www.ckr.org</url>
+
+    <properties>
+
+        <msdemo.skipReportGen>false</msdemo.skipReportGen>
+    </properties>
+
     <modules>
         <module>model</module>
         <module>interface</module>
         <module>service</module>
+
     </modules>
 
     <dependencies>
 
 
     </dependencies>
+
+    <build>
+        <plugins>
+
+        </plugins>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+
+                <configuration>
+                    <sourceDirectories>
+                        <directory>${project.basedir}/interface/src/main/java</directory>
+                        <directory>${project.basedir}/service/src/main/java</directory>
+                        <directory>${project.basedir}/module/src/main/java</directory>
+                    </sourceDirectories>
+
+                </configuration>
+            </plugin>
+
+
+
+        </plugins>
+    </reporting>
 
 </project>

@@ -13,24 +13,36 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
-@Entity(name = "User")
+@Entity()
 @Table(name = "USER")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 7028458717583173058L;
 
-    private String userName;
-    private String userDescription;
-    private String password;
-    private String isLocked;
-
-
-    private List<Role> roles;
-
-    private Timestamp lastModifiedTimestamp;
-
     @Id
     @Column(name = "USER_NAME", unique = true, nullable = false, length = 100)
+    private String userName;
+
+    @Column(name = "USER_DESCRIPTION")
+    private String userDescription;
+
+    @Column(name = "PASSWORD")
+    private String password;
+
+    @Column(name = "IS_LOCKED")
+    private String isLocked;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "USER_ROLE",
+            joinColumns = {@JoinColumn(name = "USER_NAME")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLE_CODE")})
+    private List<Role> roles;
+
+    @Version
+    @Column(name = "LAST_MODIFIED_TIMESTAMP")
+    private Timestamp lastModifiedTimestamp;
+
+
     public String getUserName() {
         return userName;
     }
@@ -39,8 +51,6 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
-
-    @Column(name = "PASSWORD")
     public String getPassword() {
         return password;
     }
@@ -49,7 +59,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @Column(name = "USER_DESCRIPTION")
     public String getUserDescription() {
         return userDescription;
     }
@@ -58,7 +67,6 @@ public class User implements Serializable {
         this.userDescription = userDescription;
     }
 
-    @Column(name = "IS_LOCKED")
     public String getLocked() {
         return isLocked;
     }
@@ -67,11 +75,6 @@ public class User implements Serializable {
         this.isLocked = isLocked;
     }
 
-
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "USER_ROLE",
-               joinColumns = {@JoinColumn(name = "USER_NAME")},
-               inverseJoinColumns = {@JoinColumn(name = "ROLE_CODE")})
     public List<Role> getRoles() {
         return roles;
     }
@@ -80,8 +83,7 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    @Version
-    @Column(name = "LAST_MODIFIED_TIMESTAMP")
+
     public Timestamp getLastModifiedTimestamp() {
         return lastModifiedTimestamp;
     }
