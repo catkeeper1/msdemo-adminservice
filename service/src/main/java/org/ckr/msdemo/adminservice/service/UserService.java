@@ -6,6 +6,7 @@ import org.ckr.msdemo.adminservice.entity.User;
 import org.ckr.msdemo.adminservice.repository.UserRepository;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
+import org.ckr.msdemo.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,15 @@ public class UserService {
         UserDetailView result = new UserDetailView();
 
         User user = this.userRepository.findByUserName(userName);
+
+        if(user == null) {
+            ApplicationException exp =  new ApplicationException("security.maintain_user.not_existing_user",
+                                           new Object[] {userName});
+
+            exp.addMessage("security.maintain_user.user_name_empty", null);
+
+            throw exp;
+        }
 
         result.setUserName(user.getUserName());
         result.setUserDescription(user.getUserDescription());
