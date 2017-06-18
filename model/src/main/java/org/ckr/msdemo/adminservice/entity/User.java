@@ -3,18 +3,15 @@ package org.ckr.msdemo.adminservice.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.Version;
+import javax.persistence.*;
 
+/**
+ * This table store user info.
+ */
 @Entity()
-@Table(name = "USER")
+@Table(name = "USER",
+       indexes = {@Index(name = "user_index_1", columnList="USER_DESCRIPTION ASC ,IS_LOCKED DESC", unique = true),
+                  @Index(name = "user_index_2", columnList="IS_LOCKED", unique = false)})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 7028458717583173058L;
@@ -37,6 +34,10 @@ public class User implements Serializable {
 
     private Timestamp lastModifiedTimestamp;
 
+    /**
+     * The unique ID of a user.
+     *
+     */
     @Id
     @Column(name = "USER_NAME", unique = true, nullable = false, length = 100)
     public String getUserName() {
@@ -47,7 +48,7 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
-    @Column(name = "USER_DESCRIPTION")
+    @Column(name = "PASSWORD")
     public String getPassword() {
         return password;
     }
@@ -56,7 +57,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @Column(name = "PASSWORD")
+    @Column(name = "USER_DESCRIPTION")
     public String getUserDescription() {
         return userDescription;
     }
