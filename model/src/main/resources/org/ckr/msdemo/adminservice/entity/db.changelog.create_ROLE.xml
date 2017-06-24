@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="liquibase-docs" id="createTable-org.ckr.msdemo.adminservice.entity.ROLE">
+
+        <createTable tableName="ROLE">
+            <column name="ROLE_CODE" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="PARENT_ROLE_CODE" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="ROLE_DESCRIPTION" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="LAST_MODIFIED_TIMESTAMP" type="java.sql.Types.TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase-docs" id="createTablePk-org.ckr.msdemo.adminservice.entity.ROLE">
+
+        <addPrimaryKey constraintName="PK_ROLE" columnNames="ROLE_CODE" tableName="ROLE" />
+    </changeSet>
+    <changeSet author="liquibase-docs" id="createTableIndex-org.ckr.msdemo.adminservice.entity.ROLE">
+    </changeSet>
+</databaseChangeLog>

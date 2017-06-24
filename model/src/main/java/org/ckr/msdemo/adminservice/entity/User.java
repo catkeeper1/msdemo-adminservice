@@ -26,7 +26,7 @@ public class User implements Serializable {
     private String password;
 
 
-    private String isLocked;
+    private Boolean isLocked;
 
 
     private List<Role> roles;
@@ -57,7 +57,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @Column(name = "USER_DESCRIPTION")
+    @Column(name = "USER_DESCRIPTION", length = 200)
     public String getUserDescription() {
         return userDescription;
     }
@@ -67,11 +67,11 @@ public class User implements Serializable {
     }
 
     @Column(name = "IS_LOCKED")
-    public String getLocked() {
+    public Boolean getLocked() {
         return isLocked;
     }
 
-    public void setLocked(String isLocked) {
+    public void setLocked(Boolean isLocked) {
         this.isLocked = isLocked;
     }
 
