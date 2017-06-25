@@ -6,7 +6,7 @@ public class UserServiceForm {
 	private String userName;
 	private String userDescription;
 	private String password;
-	private String locked;
+	private Boolean locked;
 	
 	private List<RoleServiceForm> roles;
 	
@@ -28,10 +28,10 @@ public class UserServiceForm {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getLocked() {
+	public Boolean getLocked() {
 		return locked;
 	}
-	public void setLocked(String locked) {
+	public void setLocked(Boolean locked) {
 		this.locked = locked;
 	}
 	
