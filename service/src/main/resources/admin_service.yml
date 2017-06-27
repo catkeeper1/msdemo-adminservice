@@ -14,3 +14,4 @@ logging:
     org.springframework:
       web: DEBUG
       orm: DEBUG
+    org.ckr: DEBUG
