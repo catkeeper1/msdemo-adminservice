@@ -27,7 +27,7 @@ public class UserService {
 
         User user = this.userRepository.findByUserName(userName);
 
-        if(user == null) {
+        if (user == null) {
             ApplicationException exp =  new ApplicationException("security.maintain_user.not_existing_user",
                                            new Object[] {userName});
 

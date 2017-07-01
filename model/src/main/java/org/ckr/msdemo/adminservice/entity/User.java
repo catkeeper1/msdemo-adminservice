@@ -3,15 +3,24 @@ package org.ckr.msdemo.adminservice.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Version;
 
 /**
  * This table store user info.
  */
 @Entity()
 @Table(name = "USER",
-       indexes = {@Index(name = "user_index_1", columnList="USER_DESCRIPTION ASC ,IS_LOCKED DESC", unique = true),
-                  @Index(name = "user_index_2", columnList="IS_LOCKED", unique = false)})
+        indexes = {@Index(name = "user_index_1", columnList = "USER_DESCRIPTION ASC ,IS_LOCKED DESC", unique = true),
+                @Index(name = "user_index_2", columnList = "IS_LOCKED", unique = false)})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 7028458717583173058L;
@@ -36,7 +45,6 @@ public class User implements Serializable {
 
     /**
      * The unique ID of a user.
-     *
      */
     @Id
     @Column(name = "USER_NAME", unique = true, nullable = false, length = 100)

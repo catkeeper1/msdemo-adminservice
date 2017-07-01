@@ -18,6 +18,10 @@ import java.lang.annotation.Target;
 @Documented
 @Transactional(readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 public @interface ReadOnlyTransaction {
+
+    /**
+     * @see Transactional#propagation()
+     */
     @AliasFor(annotation = Transactional.class, attribute = "propagation")
     Propagation propagation() default Propagation.REQUIRED;
 }

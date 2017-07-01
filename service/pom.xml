@@ -56,18 +56,18 @@
         <dependency>
             <groupId>org.ckr.msdemo</groupId>
             <artifactId>admin-service-model</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ckr.msdemo</groupId>
             <artifactId>admin-service-interface</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.ckr.msdemo</groupId>
             <artifactId>exceptions</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
 
