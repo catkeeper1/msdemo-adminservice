@@ -20,6 +20,16 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+
+    /**
+     * Query user detail info by user ID.
+     * This method should return the basic user info and the corresponding role info.
+     * Please refer {@link UserDetailView} for what kind of user info will be
+     * returned.
+     * @param userName  The user ID.
+     * @return detail info of a user.
+     *     {@link ApplicationException} will be thrown if user is not exist.
+     */
     @ReadOnlyTransaction
     public UserDetailView getUser(String userName) {
 

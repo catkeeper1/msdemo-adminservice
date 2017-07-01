@@ -14,6 +14,10 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    /**
+     * Query user detail info by user ID.
+     * @see UserService#getUser(String)
+     */
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     public UserDetailView getUser(@PathVariable("userId") String userName) {
 
