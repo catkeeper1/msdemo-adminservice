@@ -9,12 +9,8 @@
         <loadUpdateData file="org/ckr/msdemo/adminservice/entity/USER.csv"
                         primaryKey="PK_USER"
                         tableName="USER">
-            <!--<column name="USER_NAME"/>-->
-            <!--<column name="PASSWORD"/>-->
-            <!--<column name="USER_DESCRIPTION"/>-->
             <column name="IS_LOCKED" type="BOOLEAN"/>
             <column name="LAST_MODIFIED_TIMESTAMP" type="DATE"/>
         </loadUpdateData>
     </changeSet>
-
 </databaseChangeLog>
