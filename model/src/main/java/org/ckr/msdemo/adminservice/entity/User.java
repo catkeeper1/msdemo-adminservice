@@ -3,6 +3,7 @@ package org.ckr.msdemo.adminservice.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +24,13 @@ import javax.persistence.Version;
                 @Index(name = "user_index_2", columnList = "IS_LOCKED", unique = false)})
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 7028458717583173058L;
+    public User(String userName, String userDescription) {
+		super();
+		this.userName = userName;
+		this.userDescription = userDescription;
+	}
+
+	private static final long serialVersionUID = 7028458717583173058L;
 
 
     private String userName;
