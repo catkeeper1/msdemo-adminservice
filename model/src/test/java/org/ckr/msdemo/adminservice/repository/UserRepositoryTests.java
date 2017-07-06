@@ -3,11 +3,9 @@ package org.ckr.msdemo.adminservice.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
-import org.assertj.core.util.DateUtil;
 import org.ckr.msdemo.adminservice.entity.User;
-import org.h2.util.DateTimeUtils;
-import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +43,17 @@ public class UserRepositoryTests {
 		assertThat(user.getUserName()).isEqualTo("xiaoming");
 		assertThat(user.getUserDescription()).isEqualTo("sb");
 		assertThat(user.getLastModifiedTimestamp()).isEqualTo(nowTimestamp);
+	}
+	
+	@Test
+	public void testfindByUserNamePrefix() {
+		this.testEntityManager.persist(new User("xiaoming", "sb"));
+		this.testEntityManager.persist(new User("xiao", "sb"));
+		this.testEntityManager.persist(new User("xia", "sb"));
+		List<User> users = this.userRepository.findByUserNamePrefix("xiao");
+		assertThat(users.size()).isEqualTo(2);
+		for (User user : users) {
+			assertThat(user.getUserName()).startsWith("xiao");
+		}
 	}
 }
