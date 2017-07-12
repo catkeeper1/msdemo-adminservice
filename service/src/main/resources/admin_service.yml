@@ -12,6 +12,6 @@ spring:
 logging:
   level:
     org.springframework:
-      web: DEBUG
+      web: TRACE
       orm: DEBUG
     org.ckr: DEBUG

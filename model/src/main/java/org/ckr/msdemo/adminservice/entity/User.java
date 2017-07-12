@@ -24,13 +24,17 @@ import javax.persistence.Version;
                 @Index(name = "user_index_2", columnList = "IS_LOCKED", unique = false)})
 public class User implements Serializable {
 
+    public User() {
+        super();
+    }
+
     public User(String userName, String userDescription) {
 		super();
-		this.userName = userName;
-		this.userDescription = userDescription;
-	}
+        this.userName = userName;
+        this.userDescription = userDescription;
+    }
 
-	private static final long serialVersionUID = 7028458717583173058L;
+    private static final long serialVersionUID = 7028458717583173058L;
 
 
     private String userName;

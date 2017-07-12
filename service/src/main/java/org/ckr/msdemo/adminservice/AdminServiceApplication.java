@@ -7,7 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  * This is the Application class for the admin service application.
  */
 @SuppressWarnings("PMD")
-@SpringBootApplication()
+@SpringBootApplication(scanBasePackages = "org.ckr.msdemo")
 public class AdminServiceApplication {
 
 

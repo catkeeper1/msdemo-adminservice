@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="liquibase-docs" id="createTable-org.ckr.msdemo.adminservice.entity.USER_ROLE">
+
+        <createTable tableName="USER_ROLE">
+            <column name="USER_NAME" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="ROLE_CODE" type="java.sql.Types.VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase-docs" id="createTablePk-org.ckr.msdemo.adminservice.entity.USER_ROLE">
+
+        <addPrimaryKey constraintName="PK_USER_ROLE" columnNames="USER_NAME,ROLE_CODE" tableName="USER_ROLE" />
+    </changeSet>
+</databaseChangeLog>
