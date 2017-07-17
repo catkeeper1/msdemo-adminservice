@@ -2,17 +2,21 @@ package org.ckr.msdemo.adminservice.controller;
 
 import org.ckr.msdemo.adminservice.service.UserService;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
+import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
+import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.pagination.PaginationContext;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -36,7 +40,6 @@ public class UserController {
 
 
     @RequestMapping(value = "/user/queryUser", method = RequestMethod.GET)
-    @ResponseBody
     public List<UserDetailView> getUsers() {
 
         PaginationContext.getQueryRequest();
@@ -50,4 +53,14 @@ public class UserController {
         return result;
 
     }
+
+    @RequestMapping(value = "/user/createUser", method = RequestMethod.POST)
+    public Boolean createUser(@RequestBody UserServiceForm user) {
+
+        this.userService.createUser(user);
+
+
+        return Boolean.TRUE;
+    }
+
 }

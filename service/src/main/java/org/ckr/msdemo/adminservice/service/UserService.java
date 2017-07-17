@@ -7,6 +7,8 @@ import org.ckr.msdemo.adminservice.repository.UserRepository;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.exception.ApplicationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.List;
 
 @Service
 public class UserService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     UserRepository userRepository;
@@ -66,4 +70,46 @@ public class UserService {
 
         return result;
     }
+
+    public void createUser(UserServiceForm userForm) {
+
+        LOG.debug("create new user.");
+
+        User user = new User();
+
+
+        validateUserInfo(userForm);
+
+        if (this.userRepository.findByUserName(userForm.getUserName()) != null) {
+            throw new ApplicationException("security.maintain_user.duplicated_user");
+        }
+
+
+        user.setUserName(userForm.getUserName());
+        user.setUserDescription(userForm.getUserDescription());
+        user.setLocked(Boolean.FALSE);
+
+        user.setPassword(encodePassword(userForm.getPassword()));
+
+        this.userRepository.save(user);
+
+        //this.saveRoles(user, userForm);
+
+
+    }
+
+    private void validateUserInfo(UserServiceForm user) {
+        if (user.getUserName() == null || "".equals(user.getUserName())) {
+            throw new ApplicationException("security.maintain_user.user_name_empty");
+        }
+
+        if (user.getUserDescription() == null || "".equals(user.getUserDescription())) {
+            throw new ApplicationException("security.maintain_user.user_desc_empty");
+        }
+    }
+
+    private String encodePassword(String pwd) {
+        return pwd;
+    }
+
 }
