@@ -1,6 +1,7 @@
 package org.ckr.msdemo.adminservice.service;
 
 import org.ckr.msdemo.adminservice.annotation.ReadOnlyTransaction;
+import org.ckr.msdemo.adminservice.annotation.ReadWriteTransaction;
 import org.ckr.msdemo.adminservice.entity.Role;
 import org.ckr.msdemo.adminservice.entity.User;
 import org.ckr.msdemo.adminservice.repository.UserRepository;
@@ -71,6 +72,7 @@ public class UserService {
         return result;
     }
 
+    @ReadWriteTransaction
     public void createUser(UserServiceForm userForm) {
 
         LOG.debug("create new user.");
