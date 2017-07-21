@@ -7,7 +7,9 @@
     <changeSet author="liquibase-docs" id="createTable-org.ckr.msdemo.adminservice.entity.USER">
 
         <createTable tableName="USER">
-            <column name="USER_NAME" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="USER_NAME" type="java.sql.Types.VARCHAR(100)">
+            	<constraints nullable="false"/>
+            </column>
             <column name="PASSWORD" type="java.sql.Types.VARCHAR(100)"/>
             <column name="USER_DESCRIPTION" type="java.sql.Types.VARCHAR(200)"/>
             <column name="IS_LOCKED" type="java.sql.Types.BOOLEAN"/>

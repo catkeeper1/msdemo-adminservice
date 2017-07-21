@@ -7,7 +7,9 @@
     <changeSet author="liquibase-docs" id="createTable-org.ckr.msdemo.adminservice.entity.ROLE">
 
         <createTable tableName="ROLE">
-            <column name="ROLE_CODE" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="ROLE_CODE" type="java.sql.Types.VARCHAR(100)">
+            	<constraints nullable="false"/>
+            </column>
             <column name="PARENT_ROLE_CODE" type="java.sql.Types.VARCHAR(100)"/>
             <column name="ROLE_DESCRIPTION" type="java.sql.Types.VARCHAR(100)"/>
             <column name="LAST_MODIFIED_TIMESTAMP" type="java.sql.Types.TIMESTAMP"/>

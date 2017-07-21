@@ -6,11 +6,10 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet author="liquibase-docs" id="insertTable-org.ckr.msdemo.adminservice.entity.USER">
 
-        <loadUpdateData file="org/ckr/msdemo/adminservice/entity/USER.csv"
-                        primaryKey="PK_USER"
+        <loadData file="org/ckr/msdemo/adminservice/entity/USER.csv"
                         tableName="USER">
             <column name="IS_LOCKED" type="BOOLEAN"/>
             <column name="LAST_MODIFIED_TIMESTAMP" type="DATE"/>
-        </loadUpdateData>
+        </loadData>
     </changeSet>
 </databaseChangeLog>

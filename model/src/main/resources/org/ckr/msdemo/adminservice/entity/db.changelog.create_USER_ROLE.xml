@@ -7,8 +7,12 @@
     <changeSet author="liquibase-docs" id="createTable-org.ckr.msdemo.adminservice.entity.USER_ROLE">
 
         <createTable tableName="USER_ROLE">
-            <column name="USER_NAME" type="java.sql.Types.VARCHAR(100)"/>
-            <column name="ROLE_CODE" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="USER_NAME" type="java.sql.Types.VARCHAR(100)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="ROLE_CODE" type="java.sql.Types.VARCHAR(100)">
+            	<constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
     <changeSet author="liquibase-docs" id="createTablePk-org.ckr.msdemo.adminservice.entity.USER_ROLE">

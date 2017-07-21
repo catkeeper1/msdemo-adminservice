@@ -6,10 +6,9 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet author="liquibase-docs" id="insertTable-org.ckr.msdemo.adminservice.entity.ROLE">
 
-        <loadUpdateData file="org/ckr/msdemo/adminservice/entity/ROLE.csv"
-                        primaryKey="PK_ROLE"
+        <loadData file="org/ckr/msdemo/adminservice/entity/ROLE.csv"
                         tableName="ROLE">
             <column name="LAST_MODIFIED_TIMESTAMP" type="DATE"/>
-        </loadUpdateData>
+        </loadData>
     </changeSet>
 </databaseChangeLog>

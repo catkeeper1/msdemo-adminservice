@@ -6,9 +6,8 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet author="liquibase-docs" id="insertTable-org.ckr.msdemo.adminservice.entity.USER_ROLE">
 
-        <loadUpdateData file="org/ckr/msdemo/adminservice/entity/USER_ROLE.csv"
-                        primaryKey="PK_USER_ROLE"
+        <loadData file="org/ckr/msdemo/adminservice/entity/USER_ROLE.csv"
                         tableName="USER_ROLE">
-        </loadUpdateData>
+        </loadData>
     </changeSet>
 </databaseChangeLog>
