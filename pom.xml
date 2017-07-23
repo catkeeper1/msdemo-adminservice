@@ -49,6 +49,53 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven-plugin.version}</version>
+                <inherited>false</inherited>
+
+                <executions>
+                    <execution>
+                        <id>gen-coverage-report</id>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-Dcoverage-output=html</argument>
+                        <argument>-Dcoverage-srcDirs=${project.basedir}/interface/src/main/java,${project.basedir}/model/src/main/java,${project.basedir}/service/src/main/java</argument>
+                        <argument>-Dcoverage-outputDir=${project.build.directory}/coverage-report</argument>
+                        <!--<argument>-Dcoverage-classes=org.ckr.msdemo.*</argument>-->
+                        <argument>-classpath</argument>
+                        <classpath>
+                            <dependency>org.jmockit:jmockit</dependency>
+                        </classpath>
+
+                        <argument>mockit.coverage.CodeCoverage</argument>
+                        <argument>interface/target/coverage-data</argument>
+                        <argument>model/target/coverage-data</argument>
+                        <argument>service/target/coverage-data</argument>
+                    </arguments>
+
+                    <classpathScope>test</classpathScope>
+                    <workingDirectory>${project.basedir}</workingDirectory>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jmockit</groupId>
+                        <artifactId>jmockit</artifactId>
+                        <version>${jmockit.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
         </plugins>
 
 

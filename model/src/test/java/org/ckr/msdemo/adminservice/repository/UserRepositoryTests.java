@@ -21,13 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @Transactional
-@TestPropertySource(
-        properties = {
-                "spring.jpa.hibernate.ddl-auto=none",
-                "liquibase.change-log=classpath:db.changelog_adminservice_master.xml"
-        }
-)
-
 public class UserRepositoryTests {
 
 	@Autowired

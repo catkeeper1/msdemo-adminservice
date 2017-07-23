@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+liquibase:
+  change-log: classpath:db.changelog_adminservice_test_master.xml
+  contexts: UT

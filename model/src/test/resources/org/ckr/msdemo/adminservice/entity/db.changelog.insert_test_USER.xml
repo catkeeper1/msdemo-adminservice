@@ -4,9 +4,9 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet author="liquibase-docs" id="insertTable-org.ckr.msdemo.adminservice.entity.USER" context="!UT">
+    <changeSet author="liquibase-docs" id="insertTable-org.ckr.msdemo.adminservice.entity.USER" context="UT">
 
-        <loadUpdateData file="org/ckr/msdemo/adminservice/entity/USER.csv"
+        <loadUpdateData file="org/ckr/msdemo/adminservice/entity/test_USER.csv"
                         primaryKey="USER_NAME"
                         tableName="USER">
             <column name="IS_LOCKED" type="BOOLEAN"/>
