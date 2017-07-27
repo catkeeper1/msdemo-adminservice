@@ -3,7 +3,6 @@ package org.ckr.msdemo.adminservice.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,8 +19,8 @@ import javax.persistence.Version;
  */
 @Entity()
 @Table(name = "USER",
-        indexes = {@Index(name = "user_index_1", columnList = "USER_DESCRIPTION ASC ,IS_LOCKED DESC", unique = true),
-                @Index(name = "user_index_2", columnList = "IS_LOCKED", unique = false)})
+    indexes = {@Index(name = "user_index_1", columnList = "USER_DESCRIPTION ASC ,IS_LOCKED DESC", unique = true),
+        @Index(name = "user_index_2", columnList = "IS_LOCKED", unique = false)})
 public class User implements Serializable {
 
     public User() {
@@ -29,7 +28,7 @@ public class User implements Serializable {
     }
 
     public User(String userName, String userDescription) {
-		super();
+        super();
         this.userName = userName;
         this.userDescription = userDescription;
     }
@@ -96,8 +95,8 @@ public class User implements Serializable {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "USER_ROLE",
-            joinColumns = {@JoinColumn(name = "USER_NAME")},
-            inverseJoinColumns = {@JoinColumn(name = "ROLE_CODE")})
+        joinColumns = {@JoinColumn(name = "USER_NAME")},
+        inverseJoinColumns = {@JoinColumn(name = "ROLE_CODE")})
     public List<Role> getRoles() {
         return roles;
     }

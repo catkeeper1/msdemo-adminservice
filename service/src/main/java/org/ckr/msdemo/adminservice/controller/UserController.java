@@ -2,21 +2,16 @@ package org.ckr.msdemo.adminservice.controller;
 
 import org.ckr.msdemo.adminservice.service.UserService;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
-import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.pagination.PaginationContext;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -26,9 +21,9 @@ public class UserController {
     UserService userService;
 
 
-
     /**
      * Query user detail info by user ID.
+     *
      * @see UserService#getUser(String)
      */
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
@@ -48,7 +43,7 @@ public class UserController {
         UserDetailView v = new UserDetailView();
         v.setUserName("abc");
         List<UserDetailView> result = new ArrayList<>();
-//        result.add(v);
+        //result.add(v);
 
         return result;
 
