@@ -16,7 +16,24 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * User service class.
+ * <p><img src="abc.svg" alt="class diagram">
+ * <p>abc.
+ *
+<!--
+@startuml abc.svg
+Alice -> Bob: Authentication Request
+Alice <-- Bob: Authentication Response
 
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: another authentication Response
+
+
+@enduml
+' -->
+ *
+ */
 @Service
 public class UserService {
 
