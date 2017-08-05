@@ -1,6 +1,7 @@
 package org.ckr.msdemo.adminservice.controller;
 
 import org.ckr.msdemo.adminservice.service.UserService;
+import org.ckr.msdemo.adminservice.spec.UserSpecification;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.pagination.PaginationContext;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class UserController {
+public class UserController implements UserSpecification {
 
     @Autowired
     UserService userService;
@@ -26,15 +27,15 @@ public class UserController {
      *
      * @see UserService#getUser(String)
      */
-    @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
-    public UserDetailView getUser(@PathVariable("userId") String userName) {
+    @Override
+    public UserDetailView getUser(String userName) {
 
         return this.userService.getUser(userName);
 
     }
 
 
-    @RequestMapping(value = "/user/queryUser", method = RequestMethod.GET)
+    @Override
     public List<UserDetailView> getUsers() {
 
         PaginationContext.getQueryRequest();
@@ -49,8 +50,8 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/user/createUser", method = RequestMethod.POST)
-    public Boolean createUser(@RequestBody UserServiceForm user) {
+    @Override
+    public Boolean createUser(UserServiceForm user) {
 
         this.userService.createUser(user);
 
