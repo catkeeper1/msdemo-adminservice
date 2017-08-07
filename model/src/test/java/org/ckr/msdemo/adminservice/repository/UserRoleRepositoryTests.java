@@ -42,4 +42,18 @@ public class UserRoleRepositoryTests {
             assertThat(user.getUserName()).startsWith("ABC");
         }
     }
+
+    @Test
+    public void testFindUserRoleCode2(){
+        final PageRequest page = new PageRequest(
+            1, 1, new Sort(
+            new Sort.Order(Sort.Direction.DESC, "user_Name"))
+        );
+        List<User> users = this.userRoleRepository.findUsersByRoleCode("GROUP_ADMIN", page);
+        assertThat(users.size()).isEqualTo(1);
+        for (User user : users) {
+            System.out.println("----**-----" + user.getUserName());
+            assertThat(user.getUserName()).startsWith("ABC1");
+        }
+    }
 }
