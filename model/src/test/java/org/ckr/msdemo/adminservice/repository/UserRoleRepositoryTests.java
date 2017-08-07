@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -49,8 +50,10 @@ public class UserRoleRepositoryTests {
             1, 1, new Sort(
             new Sort.Order(Sort.Direction.DESC, "user_Name"))
         );
-        List<User> users = this.userRoleRepository.findUsersByRoleCode("GROUP_ADMIN", page);
-        assertThat(users.size()).isEqualTo(1);
+        Page<User> users = this.userRoleRepository.findUsersByRoleCode2("GROUP_ADMIN", page);
+        assertThat(users.getNumberOfElements()).isEqualTo(1);
+        assertThat(users.getTotalPages()).isEqualTo(3);
+        assertThat(users.getTotalElements()).isEqualTo(3);
         for (User user : users) {
             System.out.println("----**-----" + user.getUserName());
             assertThat(user.getUserName()).startsWith("ABC1");
