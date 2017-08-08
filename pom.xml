@@ -26,6 +26,7 @@
         <module>model</module>
         <module>interface</module>
         <module>service</module>
+        <module>apitest</module>
 
     </modules>
 
