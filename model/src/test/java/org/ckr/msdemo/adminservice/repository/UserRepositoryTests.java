@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration.LiquibaseConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +35,6 @@ public class UserRepositoryTests {
     public void testfindExistingByUserName() {
         User user = this.userRepository.findByUserName("ABC");
         assertThat(user.getUserName()).isEqualTo("ABC");
-        LiquibaseConfiguration springLiquibase;
     }
 
     @Test
@@ -69,4 +70,20 @@ public class UserRepositoryTests {
             assertThat(user.getUserName()).startsWith("xiao");
         }
     }
+
+    @Test
+    public void testfindByUserNamePrefix2() {
+
+        final PageRequest page = new PageRequest(
+            1, 5, new Sort(
+            new Sort.Order(Sort.Direction.DESC, "userName"))
+        );
+        List<User> users = this.userRepository.findByUserNamePrefix("ABC", page);
+        assertThat(users.size()).isEqualTo(2);
+        for (User user : users) {
+            System.out.println("----++-----" + user.getUserName());
+            assertThat(user.getUserName()).startsWith("ABC");
+        }
+    }
+
 }
