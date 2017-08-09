@@ -8,9 +8,13 @@ import org.ckr.msdemo.adminservice.repository.UserRepository;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.exception.ApplicationException;
+import org.ckr.msdemo.pagination.PaginationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -129,6 +133,18 @@ public class UserService {
 
     private String encodePassword(String pwd) {
         return pwd;
+    }
+
+    @ReadOnlyTransaction
+    public List<User> queryUsers(PaginationContext.QueryRequest queryRequest){
+
+        int size = queryRequest.getEnd().intValue() - queryRequest.getStart().intValue() + 1;
+        int page = queryRequest.getEnd().intValue() / size - 1;
+        List<Sort.Order> orders = new ArrayList<>();
+        for (PaginationContext.SortCriteria sortCriteria:queryRequest.getSortCriteriaList()) {
+            orders.add(new Sort.Order((sortCriteria.isAsc()?Sort.Direction.ASC:Sort.Direction.DESC), sortCriteria.getFieldName()));
+        }
+        return userRepository.findAllUsers(new PageRequest(page, size, new Sort(orders)));
     }
 
 }
