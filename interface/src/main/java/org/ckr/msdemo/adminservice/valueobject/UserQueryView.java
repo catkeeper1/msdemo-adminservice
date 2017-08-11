@@ -9,7 +9,7 @@ public class UserQueryView implements Serializable {
 
     private String userName;
     private String userDescription;
-    private String isLocked;
+    private String locked;
 
     public String getUserName() {
         return userName;
@@ -28,11 +28,11 @@ public class UserQueryView implements Serializable {
     }
 
     public String getLocked() {
-        return isLocked;
+        return locked;
     }
 
-    public void setLocked(String isLocked) {
-        this.isLocked = isLocked;
+    public void setLocked(String locked) {
+        this.locked = locked;
     }
 
 

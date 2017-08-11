@@ -45,7 +45,7 @@ public class User implements Serializable {
     private String password;
 
 
-    private Boolean isLocked;
+    private Boolean locked;
 
 
     private List<Role> roles;
@@ -86,11 +86,11 @@ public class User implements Serializable {
 
     @Column(name = "IS_LOCKED")
     public Boolean getLocked() {
-        return isLocked;
+        return locked;
     }
 
-    public void setLocked(Boolean isLocked) {
-        this.isLocked = isLocked;
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
     }
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

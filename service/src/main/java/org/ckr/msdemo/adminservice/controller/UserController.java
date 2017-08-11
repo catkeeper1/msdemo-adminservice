@@ -1,8 +1,10 @@
 package org.ckr.msdemo.adminservice.controller;
 
+import org.ckr.msdemo.adminservice.entity.User;
 import org.ckr.msdemo.adminservice.service.UserService;
 import org.ckr.msdemo.adminservice.spec.UserSpecification;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
+import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.pagination.PaginationContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class UserController implements UserSpecification {
 
     @Autowired
     UserService userService;
-
 
     /**
      * Query user detail info by user ID.
@@ -37,15 +39,13 @@ public class UserController implements UserSpecification {
 
     @Override
     public List<UserDetailView> getUsers() {
-
-        PaginationContext.getQueryRequest();
-
-        PaginationContext.setResponseInfo(10L, 98L, 1000L);
-        UserDetailView v = new UserDetailView();
-        v.setUserName("abc");
         List<UserDetailView> result = new ArrayList<>();
-        //result.add(v);
-
+        PaginationContext.QueryResponse queryResponse = this.userService.queryUsers2(null, null);
+        for (Object userQueryView: queryResponse.getContent()) {
+            if (userQueryView instanceof UserQueryView){
+                result.add((UserDetailView) userQueryView);
+            }
+        }
         return result;
 
     }
@@ -54,8 +54,6 @@ public class UserController implements UserSpecification {
     public Boolean createUser(UserServiceForm user) {
 
         this.userService.createUser(user);
-
-
         return Boolean.TRUE;
     }
 
