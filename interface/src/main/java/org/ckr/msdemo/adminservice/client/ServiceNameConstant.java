@@ -5,4 +5,5 @@ package org.ckr.msdemo.adminservice.client;
  */
 public class ServiceNameConstant {
     public static final String ADMIN_SERVICE = "admin-service";
+    public static final String ADMIN_SERVICE_CONTEXT = "admin_service";
 }

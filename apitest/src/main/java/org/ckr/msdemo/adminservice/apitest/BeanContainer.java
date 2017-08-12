@@ -21,12 +21,6 @@ public class BeanContainer {
     private static ConfigurableApplicationContext applicationContext = null;
 
 
-    private static ComponentA componentA;
-
-    @Autowired
-    public void setComponentA(ComponentA c) {
-        componentA = c;
-    }
 
     static {
         SpringApplication app = new SpringApplication(BeanContainer.class);
@@ -41,8 +35,5 @@ public class BeanContainer {
         return map.values().iterator().next();
     }
 
-    @Bean
-    Logger.Level feignLoggerLevel() {
-        return Logger.Level.FULL;
-    }
+
 }

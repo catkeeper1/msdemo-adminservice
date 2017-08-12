@@ -28,5 +28,11 @@
             <artifactId>admin-service-interface</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.ckr.msdemo</groupId>
+            <artifactId>exceptions</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

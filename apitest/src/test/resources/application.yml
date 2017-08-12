@@ -1,14 +1,13 @@
-ribbon:
-  eureka:
-   enabled: false
-
 
 admin-service:
   ribbon:
-    listOfServers: localhost:8082/admin_service
+    eureka:
+      enabled: false
+    listOfServers: localhost:8082
+
 
 
 
 logging:
   level:
-    org.ckr.msdemo.adminservice.client.UserClient: DEBUG
+    org.ckr.msdemo.adminservice.client: DEBUG

@@ -14,7 +14,11 @@ public class SampleTest {
 
         UserClient userClient = (UserClient) BeanContainer.getBean(UserClient.class);
 
-        userClient.getUser("ABC");
+        try {
+            userClient.getUser("ABC   f");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }
