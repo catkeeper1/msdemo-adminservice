@@ -5,16 +5,26 @@ import org.ckr.msdemo.adminservice.annotation.ReadWriteTransaction;
 import org.ckr.msdemo.adminservice.entity.Role;
 import org.ckr.msdemo.adminservice.entity.User;
 import org.ckr.msdemo.adminservice.repository.UserRepository;
+import org.ckr.msdemo.adminservice.util.StringUtil;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
+import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.exception.ApplicationException;
+import org.ckr.msdemo.pagination.HibernateRestPaginationService;
+import org.ckr.msdemo.pagination.PaginationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import javax.persistence.EntityManagerFactory;
 
 /**
  * User service class.
@@ -42,6 +52,8 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    HibernateRestPaginationService hibernateRestPaginationService;
 
     /**
      * Query user detail info by user ID.
@@ -128,5 +140,54 @@ public class UserService {
     private String encodePassword(String pwd) {
         return pwd;
     }
+
+    @ReadOnlyTransaction
+    public List<User> queryUsers() {
+        PaginationContext.QueryRequest queryRequest = PaginationContext.getQueryRequest();
+        int size = queryRequest.getEnd().intValue() - queryRequest.getStart().intValue() + 1;
+        int page = queryRequest.getEnd().intValue() / size - 1;
+        List<Sort.Order> orders = new ArrayList<>();
+        for (PaginationContext.SortCriteria sortCriteria : queryRequest.getSortCriteriaList()) {
+            orders.add(new Sort.Order((sortCriteria.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC), sortCriteria.getFieldName()));
+        }
+        return userRepository.findAllUsers(new PageRequest(page, size, new Sort(orders)));
+    }
+
+    @ReadOnlyTransaction
+    public PaginationContext.QueryResponse queryUsers2(String userName, String userDesc) {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        if (!StringUtil.isNull(userName)) {
+            params.put("userName", userName);
+        }
+
+        if (!StringUtil.isNull(userDesc)) {
+            params.put("userDesc", "%" + userDesc + "%");
+        }
+
+        String queryStr = "select u.userName, u.userDescription, u.locked from User u where 1=1 "
+            + "/*userName| and u.userName = :userName */"
+            + "/*userDesc| and u.userDescription like :userDesc */";
+
+        Function<Object[], UserQueryView> mapper = new Function<Object[], UserQueryView>() {
+
+            @Override
+            public UserQueryView apply(Object[] row) {
+
+                UserQueryView view = new UserQueryView();
+
+                view.setUserName((String) row[0]);
+                view.setUserDescription((String) row[1]);
+                view.setLocked(((Boolean) row[2]).toString());
+
+                return view;
+            }
+
+
+        };
+        return hibernateRestPaginationService.query(queryStr, params, mapper);
+
+    }
+
 
 }

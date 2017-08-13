@@ -22,4 +22,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query("select u from User u where u.userName like ?1%")
     List<User> findByUserNamePrefix(String usernamePrefix);
 
+    @Query("select u from User u")
+    List<User> findAllUsers(Pageable pageable);
+
 }
