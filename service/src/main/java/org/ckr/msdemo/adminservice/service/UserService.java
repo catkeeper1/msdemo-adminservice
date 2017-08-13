@@ -10,7 +10,7 @@ import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.exception.ApplicationException;
-import org.ckr.msdemo.pagination.HibernateRestPaginationService;
+import org.ckr.msdemo.pagination.JpaRestPaginationService;
 import org.ckr.msdemo.pagination.PaginationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import javax.persistence.EntityManagerFactory;
 
 /**
  * User service class.
@@ -53,7 +52,7 @@ public class UserService {
     UserRepository userRepository;
 
     @Autowired
-    HibernateRestPaginationService hibernateRestPaginationService;
+    JpaRestPaginationService jpaRestPaginationService;
 
     /**
      * Query user detail info by user ID.
@@ -154,7 +153,7 @@ public class UserService {
     }
 
     @ReadOnlyTransaction
-    public PaginationContext.QueryResponse queryUsers2(String userName, String userDesc) {
+    public List<UserQueryView> queryUsers2(String userName, String userDesc) {
         Map<String, Object> params = new HashMap<String, Object>();
 
         if (!StringUtil.isNull(userName)) {
@@ -185,8 +184,11 @@ public class UserService {
 
 
         };
-        return hibernateRestPaginationService.query(queryStr, params, mapper);
+        List<UserQueryView> result = jpaRestPaginationService.query(queryStr, params, mapper);
 
+        LOG.debug("pagination query result {}", result);
+
+        return result;
     }
 
 

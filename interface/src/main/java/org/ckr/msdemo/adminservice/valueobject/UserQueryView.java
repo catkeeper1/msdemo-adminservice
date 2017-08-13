@@ -35,5 +35,12 @@ public class UserQueryView implements Serializable {
         this.locked = locked;
     }
 
-
+    @Override
+    public String toString() {
+        return "UserQueryView{" +
+                "userName='" + userName + '\'' +
+                ", userDescription='" + userDescription + '\'' +
+                ", locked='" + locked + '\'' +
+                '}';
+    }
 }

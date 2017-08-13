@@ -1,6 +1,7 @@
 package org.ckr.msdemo.pagination;
-import org.hibernate.query.Query;
-import com.google.gson.GsonBuilder;
+
+//import com.google.gson.GsonBuilder;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.ckr.msdemo.pagination.PaginationContext.QueryRequest;
 import org.ckr.msdemo.pagination.PaginationContext.QueryResponse;
 import org.ckr.msdemo.pagination.PaginationContext.SortCriteria;
@@ -16,16 +17,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import static org.apache.commons.lang.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 /**
  * Implement pagination query base on hibernate.<br>
  * Before it is used, please register this as a bean in Spring container and inject a valid session factory. Then,
- * call {@link HibernateRestPaginationService#query(String, Map, Function, Long)} to do query.
+ * call {@link JpaRestPaginationService#query(String, Map, Function, Long)} to do query.
  */
 @Service
-public class HibernateRestPaginationService {
+public class JpaRestPaginationService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HibernateRestPaginationService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JpaRestPaginationService.class);
 
     @PersistenceContext
     EntityManager entityManager;
@@ -59,37 +63,37 @@ public class HibernateRestPaginationService {
      * @return an {@link QueryResponse} object that include the query result and pagination info.
      * @see QueryResponse
      */
-    public QueryResponse query(final String hql,
+    public <R> List<R> query(final String hql,
                                final Map<String, Object> params,
-                               final Function<Object[], ?> mapper,
+                               final Function<Object[], R> mapper,
                                final Long maxNoRecordsPerPage) {
 
-        return new BaseRestPaginationServiceTemplate() {
+        QueryRequest queryRequest = PaginationContext.getQueryRequest();
+
+        queryRequest = this.adjustRange(queryRequest, maxNoRecordsPerPage);
 
 
-            @Override
-            protected QueryResponse doQuery(QueryResponse response, QueryRequest request) {
-                String queryStr = adjustQueryString(hql, params);
+        String queryStr = adjustQueryString(hql, params);
 
-                response = doQueryContent(response, request, queryStr, params, mapper);
-                response = doQueryTotalNoRecords(response, request, queryStr, params);
-                return response;
-            }
+        QueryResponse response = new QueryResponse();
 
-        }.query(maxNoRecordsPerPage);
+        List<R> resultList = doQueryContent(response, queryRequest, queryStr, params, mapper);
+        doQueryTotalNoRecords(response, resultList.size(), queryRequest, queryStr, params);
+        PaginationContext.setResponseInfo(response.getStart(), response.getEnd() ,response.getTotal());
 
+        return resultList;
     }
 
     /**
      * Do query base on a HQL. <br>
-     * This is the same as {@link HibernateRestPaginationService#query(String, Map, Function, Long)} except
+     * This is the same as {@link JpaRestPaginationService#query(String, Map, Function, Long)} except
      * the maxNoRecordsPerPage parameter value is always 500.
      *
-     * @see HibernateRestPaginationService#query(String, Map, Function, Long)
+     * @see JpaRestPaginationService#query(String, Map, Function, Long)
      */
-    public QueryResponse query(final String hql,
+    public <R> List<R> query(final String hql,
                                final Map<String, Object> params,
-                               Function<Object[], ?> mapper) {
+                               Function<Object[], R> mapper) {
 
         return query(hql, params, mapper, 500L);
 
@@ -97,16 +101,17 @@ public class HibernateRestPaginationService {
 
 
     @SuppressWarnings("unchecked")
-    private QueryResponse doQueryContent(QueryResponse response,
+    private <R> List<R> doQueryContent( QueryResponse response,
                                          QueryRequest request,
                                          String queryStr,
                                          Map<String, Object> params,
-                                         Function<Object[], ?> mapper) {
+                                         Function<Object[], R> mapper) {
 
         String queryString = appendSortCriteria(queryStr, request);
 
         LOG.debug("get data HQL:{}", queryString);
-        Query query = (Query) entityManager.createQuery(queryString);
+        //Query query = (Query) entityManager.createQuery(queryString);
+        Query query = entityManager.createQuery(queryString);
         setQueryParameter(query, params);
         if (request != null && request.getStart() != null) {
             query.setFirstResult(request.getStart().intValue() - 1);
@@ -114,35 +119,78 @@ public class HibernateRestPaginationService {
         if (request != null && request.getEnd() != null) {
             query.setMaxResults((int) (request.getEnd() - request.getStart()) + 1);
         }
-        List<Object> resultList;
 
-        if (mapper != null) {
-            Stream<Object[]> stream = (Stream<Object[]>) query.stream();
-            resultList = stream.map(mapper).collect(Collectors.toList());
 
+
+        List rawResultList = query.getResultList();
+
+        List<R> resultList = this.convertRawListToTargetList(rawResultList, mapper);
+
+
+        if (request == null || request.getStart() == null) {
+            response.setStart(1L);
         } else {
-            resultList = (List<Object>) query.getResultList();
+            response.setStart(request.getStart());
         }
-        LOG.debug("get data result:{}", new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(resultList));
-        response.setContent(resultList);
-        response.setStart(request.getStart());
-        if ((long) resultList.size() > 0){
-            response.setEnd(request.getStart() + (long) resultList.size() - 1);
-        }else {
+
+
+        if ((long) resultList.size() > 0) {
+            response.setEnd(response.getStart() + (long) resultList.size() - 1);
+        } else {
             response.setEnd((long) resultList.size());
         }
-        return response;
+        return resultList;
     }
 
 
-    private QueryResponse doQueryTotalNoRecords(QueryResponse response,
-                                                QueryRequest request,
-                                                String queryStr,
-                                                Map<String, Object> params) {
+    private <R> List<R> convertRawListToTargetList(List rawResultList, Function<Object[], R> mapper) {
+        //if the raw list is empty, just return it because nothing need to be converted.
+        if (rawResultList.isEmpty()) {
+            return rawResultList;
+        }
+
+        if (mapper == null) {
+            return rawResultList;
+        }
+
+        Stream<Object[]> stream = (Stream<Object[]>) rawResultList.stream();
+
+        List<R> resultList = stream.map(mapper)
+                                   .collect(Collectors.toList());
+
+        return resultList;
+
+    }
+
+    private QueryRequest adjustRange(QueryRequest request, Long maxNoRecordsPerPage) {
+
+        if (request == null) {
+            return null;
+        }
+
+        if (request.getStart() == null) {
+            request.setStart((long) 0);
+        }
+
+        if (maxNoRecordsPerPage != null) {
+            if (request.getEnd() == null || request.getEnd() - request.getStart() > maxNoRecordsPerPage - 1) {
+                //make sure the total number records will not exceed the maxNoRecordPerPage
+                request.setEnd(request.getStart() + maxNoRecordsPerPage - 1);
+            }
+        }
+
+        return request;
+    }
+
+    private void doQueryTotalNoRecords(QueryResponse response,
+                                       int contentSize,
+                                       QueryRequest request,
+                                       String queryStr,
+                                       Map<String, Object> params) {
 
         if (request == null || (request.getStart() == 0 && request.getEnd() == null)) {
-            response.setTotal((long) response.getContent().size());
-            return response;
+            response.setTotal((long) contentSize);
+            return;
         }
 
 
@@ -155,10 +203,10 @@ public class HibernateRestPaginationService {
         setQueryParameter(query, params);
 
         response.setTotal((Long) query.getSingleResult());
-        LOG.info("getContent = {}" + response.getContent().size());
-        PaginationContext.setResponseInfo(response.getStart(), response.getEnd() ,response.getTotal());
+        LOG.info("getContent = {}", contentSize);
+
         LOG.debug("total number of records {}", response.getTotal());
-        return response;
+        return;
     }
 
     private String getHqlForTotalNoRecords(String queryStr) {
@@ -204,7 +252,7 @@ public class HibernateRestPaginationService {
         return result;
     }
 
-    private static void setQueryParameter(Query query, Map<String, Object> params) {
+    private static void setQueryParameter(javax.persistence.Query query, Map<String, Object> params) {
 
         if (params == null) {
             return;

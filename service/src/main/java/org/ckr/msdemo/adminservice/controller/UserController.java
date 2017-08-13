@@ -37,15 +37,10 @@ public class UserController {
 
 
     @RequestMapping(value = "/user/queryUser", method = RequestMethod.GET)
-    public List<UserDetailView> getUsers() {
-        List<UserDetailView> result = new ArrayList<>();
-        PaginationContext.QueryResponse queryResponse = this.userService.queryUsers2(null, null);
-        for (Object userQueryView: queryResponse.getContent()) {
-            if (userQueryView instanceof UserQueryView){
-                result.add((UserDetailView) userQueryView);
-            }
-        }
-        return result;
+    public List<UserQueryView> getUsers() {
+
+        return this.userService.queryUsers2(null, null);
+
 
     }
 
