@@ -5,10 +5,10 @@ import org.ckr.msdemo.adminservice.annotation.ReadWriteTransaction;
 import org.ckr.msdemo.adminservice.entity.Role;
 import org.ckr.msdemo.adminservice.entity.User;
 import org.ckr.msdemo.adminservice.repository.UserRepository;
-import org.ckr.msdemo.adminservice.util.StringUtil;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
+import org.ckr.msdemo.adminservice.vo.UserWithRole;
 import org.ckr.msdemo.exception.ApplicationException;
 import org.ckr.msdemo.pagination.JpaRestPaginationService;
 import org.ckr.msdemo.pagination.PaginationContext;
@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,9 +60,9 @@ public class UserService {
      * This method should return the basic user info and the corresponding role info.
      * Please refer {@link UserDetailView} for what kind of user info will be
      * returned.
-     * @param userName  The user ID.
+     * @param userName The user ID.
      * @return detail info of a user.
-     *     {@link ApplicationException} will be thrown if user is not exist.
+     * {@link ApplicationException} will be thrown if user is not exist.
      */
     @ReadOnlyTransaction
     public UserDetailView getUser(String userName) {
@@ -72,8 +73,8 @@ public class UserService {
 
         if (user == null) {
             throw new ApplicationException("User '" + userName + "' is not exist.")
-                            .addMessage("security.maintain_user.not_existing_user",
-                                         new Object[] {userName});
+                .addMessage("security.maintain_user.not_existing_user",
+                    new Object[] {userName});
 
         }
 
@@ -156,11 +157,11 @@ public class UserService {
     public List<UserQueryView> queryUsers2(String userName, String userDesc) {
         Map<String, Object> params = new HashMap<String, Object>();
 
-        if (!StringUtil.isNull(userName)) {
+        if (!StringUtils.isEmpty(userName)) {
             params.put("userName", userName);
         }
 
-        if (!StringUtil.isNull(userDesc)) {
+        if (!StringUtils.isEmpty(userDesc)) {
             params.put("userDesc", "%" + userDesc + "%");
         }
 
@@ -191,5 +192,84 @@ public class UserService {
         return result;
     }
 
+    @ReadOnlyTransaction
+    public List<UserWithRole> queryUsersWithRoles(String userName, String userDesc) {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        if (!StringUtils.isEmpty(userName)) {
+            params.put("userName", userName);
+        }
+        if (!StringUtils.isEmpty(userDesc)) {
+            params.put("userDesc", "%" + userDesc + "%");
+        }
+
+        String queryStr = "select u.userName, u.userDescription, u.locked, u.password , g.roleCode, g.roleDescription from User u left join u.roles as g where 1=1 "
+            + "/*userName| and u.userName = :userName */"
+            + "/*userDesc| and u.userDescription like :userDesc */";
+
+        Function<Object[], UserWithRole> mapper = new Function<Object[], UserWithRole>() {
+
+            @Override
+            public UserWithRole apply(Object[] row) {
+
+                UserWithRole view = new UserWithRole();
+
+                view.setUserName((String) row[0]);
+                view.setUserDescription((String) row[1]);
+                view.setLocked(((Boolean) row[2]));
+                view.setPassword((String) row[3]);
+                view.setRoleCode((String) row[4]);
+                view.setRoleDescription((String) row[5]);
+
+                return view;
+            }
+
+
+        };
+        List<UserWithRole> result = jpaRestPaginationService.query(queryStr, params, mapper);
+
+        LOG.debug("pagination query result {}", result);
+
+        return result;
+    }
+
+    @ReadOnlyTransaction
+    public List<User> queryUsersWithRole(String userName, String userDesc) {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        if (!StringUtils.isEmpty(userName)) {
+            params.put("userName", userName);
+        }
+        if (!StringUtils.isEmpty(userDesc)) {
+            params.put("userDesc", "%" + userDesc + "%");
+        }
+
+        String queryStr = "select u.userName, u.userDescription, u.locked, u.password , g from User u left join u.roles as g where 1=1 "
+            + "/*userName| and u.userName = :userName */"
+            + "/*userDesc| and u.userDescription like :userDesc */";
+
+        Function<Object[], User> mapper = new Function<Object[], User>() {
+
+            @Override
+            public User apply(Object[] row) {
+
+                User view = new User();
+
+                view.setUserName((String) row[0]);
+                view.setUserDescription((String) row[1]);
+                view.setLocked(((Boolean) row[2]));
+                view.setPassword((String) row[3]);
+
+                return view;
+            }
+
+
+        };
+        List<User> result = jpaRestPaginationService.query(queryStr, params, mapper);
+
+        LOG.debug("pagination query result {}", result);
+
+        return result;
+    }
 
 }
