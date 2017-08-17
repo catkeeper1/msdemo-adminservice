@@ -28,18 +28,15 @@ import java.util.function.Function;
 
 /**
  * User service class.
- * <p><img src="abc.svg" alt="class diagram">
- * <p>abc.
- * <p>
+ * <p><img src="abcd.svg" alt="class diagram">
  * <!--
  *
- * @startuml abc.svg
+ * @startuml abcd.svg
  * Alice -> Bob: Authentication Request
  * Alice <-- Bob: Authentication Response
- * <p>
  * Alice -> Bob: Another authentication Request
  * Alice <-- Bob: another authentication Response
- * @enduml ' -->
+ * @enduml .' -->
  */
 @Service
 public class UserService {
@@ -97,20 +94,26 @@ public class UserService {
         return result;
     }
 
+    /**
+     * create an user specify by {@link UserServiceForm}
+     *
+     * @param userForm userForm from web page
+     *                 {@link ApplicationException} will be thrown when
+     *                 <ol><li>user name id dupulicate</li>
+     *                 <li>user name is empty</li>
+     *                 <li>user description is empty</li></ol>
+     */
     @ReadWriteTransaction
     public void createUser(UserServiceForm userForm) {
 
         LOG.debug("create new user.");
 
         User user = new User();
-
-
         validateUserInfo(userForm);
 
         if (this.userRepository.findByUserName(userForm.getUserName()) != null) {
             throw new ApplicationException("security.maintain_user.duplicated_user");
         }
-
 
         user.setUserName(userForm.getUserName());
         user.setUserDescription(userForm.getUserDescription());
@@ -119,10 +122,6 @@ public class UserService {
         user.setPassword(encodePassword(userForm.getPassword()));
 
         this.userRepository.save(user);
-
-        //this.saveRoles(user, userForm);
-
-
     }
 
     private void validateUserInfo(UserServiceForm user) {
@@ -139,6 +138,7 @@ public class UserService {
         return pwd;
     }
 
+
     @ReadOnlyTransaction
     public List<User> queryUsers() {
         PaginationContext.QueryRequest queryRequest = PaginationContext.getQueryRequest();
@@ -146,7 +146,8 @@ public class UserService {
         int page = queryRequest.getEnd().intValue() / size - 1;
         List<Sort.Order> orders = new ArrayList<>();
         for (PaginationContext.SortCriteria sortCriteria : queryRequest.getSortCriteriaList()) {
-            orders.add(new Sort.Order((sortCriteria.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC), sortCriteria.getFieldName()));
+            orders.add(new Sort.Order((sortCriteria.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC),
+                sortCriteria.getFieldName()));
         }
         return userRepository.findAllUsers(new PageRequest(page, size, new Sort(orders)));
     }

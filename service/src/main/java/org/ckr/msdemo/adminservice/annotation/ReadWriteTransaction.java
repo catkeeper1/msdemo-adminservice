@@ -19,6 +19,7 @@ import java.lang.annotation.Target;
 @Transactional(readOnly = false, isolation = Isolation.READ_COMMITTED)
 public @interface ReadWriteTransaction {
     /**
+     * @return Propagation
      * @see Transactional#propagation()
      */
     @AliasFor(annotation = Transactional.class, attribute = "propagation")

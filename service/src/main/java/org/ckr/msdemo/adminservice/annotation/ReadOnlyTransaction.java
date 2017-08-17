@@ -20,6 +20,7 @@ import java.lang.annotation.Target;
 public @interface ReadOnlyTransaction {
 
     /**
+     * @return Propagation
      * @see Transactional#propagation()
      */
     @AliasFor(annotation = Transactional.class, attribute = "propagation")
