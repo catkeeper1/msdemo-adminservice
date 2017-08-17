@@ -30,19 +30,16 @@ import java.util.function.Function;
  * User service class.
  * <p><img src="abc.svg" alt="class diagram">
  * <p>abc.
+ * <p>
+ * <!--
  *
-<!--
-@startuml abc.svg
-Alice -> Bob: Authentication Request
-Alice <-- Bob: Authentication Response
-
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
-
-
-@enduml
-' -->
- *
+ * @startuml abc.svg
+ * Alice -> Bob: Authentication Request
+ * Alice <-- Bob: Authentication Response
+ * <p>
+ * Alice -> Bob: Another authentication Request
+ * Alice <-- Bob: another authentication Response
+ * @enduml ' -->
  */
 @Service
 public class UserService {
@@ -60,6 +57,7 @@ public class UserService {
      * This method should return the basic user info and the corresponding role info.
      * Please refer {@link UserDetailView} for what kind of user info will be
      * returned.
+     *
      * @param userName The user ID.
      * @return detail info of a user.
      * {@link ApplicationException} will be thrown if user is not exist.
@@ -203,7 +201,9 @@ public class UserService {
             params.put("userDesc", "%" + userDesc + "%");
         }
 
-        String queryStr = "select u.userName, u.userDescription, u.locked, u.password , g.roleCode, g.roleDescription from User u left join u.roles as g where 1=1 "
+        String queryStr = "select u.userName as userName, u.userDescription as userDescription, u.locked as locked, "
+            + " u.password as password, g.roleCode as roleCode, g.roleDescription as roleDescription"
+            + " from User u left join u.roles as g where 1=1 "
             + "/*userName| and u.userName = :userName */"
             + "/*userDesc| and u.userDescription like :userDesc */";
 
@@ -227,45 +227,6 @@ public class UserService {
 
         };
         List<UserWithRole> result = jpaRestPaginationService.query(queryStr, params, mapper);
-
-        LOG.debug("pagination query result {}", result);
-
-        return result;
-    }
-
-    @ReadOnlyTransaction
-    public List<User> queryUsersWithRole(String userName, String userDesc) {
-        Map<String, Object> params = new HashMap<String, Object>();
-
-        if (!StringUtils.isEmpty(userName)) {
-            params.put("userName", userName);
-        }
-        if (!StringUtils.isEmpty(userDesc)) {
-            params.put("userDesc", "%" + userDesc + "%");
-        }
-
-        String queryStr = "select u.userName, u.userDescription, u.locked, u.password , g from User u left join u.roles as g where 1=1 "
-            + "/*userName| and u.userName = :userName */"
-            + "/*userDesc| and u.userDescription like :userDesc */";
-
-        Function<Object[], User> mapper = new Function<Object[], User>() {
-
-            @Override
-            public User apply(Object[] row) {
-
-                User view = new User();
-
-                view.setUserName((String) row[0]);
-                view.setUserDescription((String) row[1]);
-                view.setLocked(((Boolean) row[2]));
-                view.setPassword((String) row[3]);
-
-                return view;
-            }
-
-
-        };
-        List<User> result = jpaRestPaginationService.query(queryStr, params, mapper);
 
         LOG.debug("pagination query result {}", result);
 
