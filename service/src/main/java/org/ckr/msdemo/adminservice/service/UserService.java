@@ -124,6 +124,13 @@ public class UserService {
         this.userRepository.save(user);
     }
 
+    /**
+     * Validate user information according to UserServiceForm
+     * <li>user name is not empty
+     * <li>user description is not empty
+     * @param user UserServiceForm
+     */
+
     private void validateUserInfo(UserServiceForm user) {
         if (user.getUserName() == null || "".equals(user.getUserName())) {
             throw new ApplicationException("security.maintain_user.user_name_empty");
