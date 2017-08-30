@@ -3,7 +3,7 @@ package org.ckr.msdemo.adminservice.vo;
 import java.io.Serializable;
 
 /**
- * Created by yukai.a.lin on 8/15/2017.
+ * A VO represents a user and his/her role.
  */
 public class UserWithRole implements Serializable {
     private static final long serialVersionUID = -6478968530751972953L;
@@ -65,13 +65,13 @@ public class UserWithRole implements Serializable {
 
     @Override
     public String toString() {
-        return "UserWithRole{" +
-            "userName='" + userName + '\'' +
-            ", userDescription='" + userDescription + '\'' +
-            ", password='" + password + '\'' +
-            ", locked=" + locked +
-            ", roleCode='" + roleCode + '\'' +
-            ", roleDescription='" + roleDescription + '\'' +
-            '}';
+        return "UserWithRole{"
+            + "userName='" + userName + '\''
+            + ", userDescription='" + userDescription + '\''
+            + ", password='" + password + '\''
+            + ", locked=" + locked
+            + ", roleCode='" + roleCode + '\''
+            + ", roleDescription='" + roleDescription + '\''
+            + '}';
     }
 }

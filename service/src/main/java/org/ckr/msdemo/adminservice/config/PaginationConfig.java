@@ -2,16 +2,13 @@ package org.ckr.msdemo.adminservice.config;
 
 import org.ckr.msdemo.pagination.JpaRestPaginationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.persistence.EntityManager;
 
 /**
- * Created by yukai.a.lin on 8/18/2017.
+ * Configure Pagination module and init JpaRestPaginationService.
  */
 @Configuration
 public class PaginationConfig {
@@ -20,8 +17,13 @@ public class PaginationConfig {
     EntityManager entityManager;
 
 
+    /**
+     * Init JpaRestPaginationService with data source entityManager.
+     *
+     * @return JpaRestPaginationService
+     */
     @Bean
-    public JpaRestPaginationService loadJpaRestPaginationService(){
+    public JpaRestPaginationService loadJpaRestPaginationService() {
         JpaRestPaginationService result = new JpaRestPaginationService();
         result.setEntityManager(this.entityManager);
 

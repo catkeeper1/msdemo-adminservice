@@ -16,8 +16,8 @@ public class SampleTest {
 
         try {
             userClient.getUser("ABC   f");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
 
     }

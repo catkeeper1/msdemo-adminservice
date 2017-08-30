@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * REST api for User related information
+ * REST api for User related information.
  *
  * @see UserService
  */
@@ -40,7 +40,7 @@ public class UserController {
     }
 
     /**
-     * Query all users info
+     * Query all users info.
      *
      * @return return all users
      * @see UserService#queryUsers2(String, String)
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     /**
-     * Create user by {@link UserServiceForm} specified
+     * Create user by {@link UserServiceForm} specified.
      *
      * @param user user info specify by {@link UserServiceForm}
      * @return always return true
@@ -64,7 +64,7 @@ public class UserController {
     }
 
     /**
-     * Query all users info
+     * Query all users info.
      *
      * @return return all users
      * @see UserService#queryUsers2(String, String)
@@ -75,7 +75,7 @@ public class UserController {
     }
 
     /**
-     * Query user by specify user name and user description
+     * Query user by specify user name and user description.
      *
      * @param userName name of user
      * @param userDesc description of user
@@ -88,7 +88,7 @@ public class UserController {
     }
 
     /**
-     * Query user by specify user name and user description
+     * Query user by specify user name and user description.
      *
      * @param userName name of user
      * @param userDesc description of user

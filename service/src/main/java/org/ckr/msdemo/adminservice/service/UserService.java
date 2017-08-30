@@ -27,16 +27,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * User service class.
- * <p><img src="abcd.svg" alt="class diagram">
- * <!--
- *
- * @startuml abcd.svg
- * Alice -> Bob: Authentication Request
- * Alice <-- Bob: Authentication Response
- * Alice -> Bob: Another authentication Request
- * Alice <-- Bob: another authentication Response
- * @enduml .' -->
+ * User related business logic.
  */
 @Service
 public class UserService {
@@ -95,7 +86,7 @@ public class UserService {
     }
 
     /**
-     * create an user specify by {@link UserServiceForm}
+     * create an user specify by {@link UserServiceForm}.
      *
      * @param userForm userForm from web page
      *                 {@link ApplicationException} will be thrown when
@@ -125,9 +116,10 @@ public class UserService {
     }
 
     /**
-     * Validate user information according to UserServiceForm
+     * Validate user information according to UserServiceForm.
      * <li>user name is not empty
      * <li>user description is not empty
+     *
      * @param user UserServiceForm
      */
 
@@ -145,7 +137,11 @@ public class UserService {
         return pwd;
     }
 
-
+    /**
+     * find all users and return a page.
+     *
+     * @return List of User
+     */
     @ReadOnlyTransaction
     public List<User> queryUsers() {
         PaginationContext.QueryRequest queryRequest = PaginationContext.getQueryRequest();
@@ -159,6 +155,13 @@ public class UserService {
         return userRepository.findAllUsers(new PageRequest(page, size, new Sort(orders)));
     }
 
+    /**
+     * Find users with user name and user description.
+     *
+     * @param userName user name
+     * @param userDesc user description
+     * @return List of UserQueryView
+     */
     @ReadOnlyTransaction
     public List<UserQueryView> queryUsers2(String userName, String userDesc) {
         Map<String, Object> params = new HashMap<String, Object>();
@@ -198,6 +201,13 @@ public class UserService {
         return result;
     }
 
+    /**
+     * Find users with user name and user description.
+     *
+     * @param userName user name
+     * @param userDesc user description
+     * @return List of UserWithRole
+     */
     @ReadOnlyTransaction
     public List<UserWithRole> queryUsersWithRoles(String userName, String userDesc) {
         Map<String, Object> params = new HashMap<String, Object>();
