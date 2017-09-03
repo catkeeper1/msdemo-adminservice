@@ -23,7 +23,7 @@ import java.security.spec.X509EncodedKeySpec;
 /**
  * Created by Administrator on 2017/9/3.
  */
-//@EnableResourceServer
+@EnableResourceServer
 @Configuration
 public class ProtectedResourceConfig extends ResourceServerConfigurerAdapter {
 
@@ -34,7 +34,7 @@ public class ProtectedResourceConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests().anyRequest().permitAll();
 
 
     }
