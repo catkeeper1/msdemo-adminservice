@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -148,15 +150,10 @@ public class UserService {
 
     @ReadOnlyTransaction
     public List<User> queryUsers() {
-        PaginationContext.QueryRequest queryRequest = PaginationContext.getQueryRequest();
-        int size = queryRequest.getEnd().intValue() - queryRequest.getStart().intValue() + 1;
-        int page = queryRequest.getEnd().intValue() / size - 1;
-        List<Sort.Order> orders = new ArrayList<>();
-        for (PaginationContext.SortCriteria sortCriteria : queryRequest.getSortCriteriaList()) {
-            orders.add(new Sort.Order((sortCriteria.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC),
-                sortCriteria.getFieldName()));
-        }
-        return userRepository.findAllUsers(new PageRequest(page, size, new Sort(orders)));
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+
+        LOG.debug("user ID is {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return userRepository.findAll();
     }
 
     @ReadOnlyTransaction

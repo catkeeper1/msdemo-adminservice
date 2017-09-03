@@ -9,9 +9,16 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1/adminservice
 
+ressrv:
+  publickey: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEPS0uGZGdksBcNzRuLq2/6RD7gQOzZi0WhcVKCF/8ePlXg991xlOHEy7IP9ZWA+svWCVM22cts7v6hOaDoSFp7A==
+  publicKeyUrl:
+  publicKeyAlgorithm: EC
+  verifyAlgorithm: SHA256withECDSA
+
 logging:
   level:
     org.springframework:
-      web: TRACE
+      web: DEBUG
       orm: DEBUG
+      security: DEBUG
     org.ckr: DEBUG

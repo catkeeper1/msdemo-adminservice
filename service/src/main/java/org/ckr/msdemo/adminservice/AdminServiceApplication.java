@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * This is the Application class for the admin service application.
  */
 @SuppressWarnings("PMD")
-@SpringBootApplication(scanBasePackages = "org.ckr.msdemo")
+@SpringBootApplication(scanBasePackages = {"org.ckr.msdemo.adminservice", "org.ckr.msdemo.pagination"})
 public class AdminServiceApplication {
 
 

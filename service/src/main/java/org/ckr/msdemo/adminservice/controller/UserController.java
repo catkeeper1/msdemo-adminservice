@@ -7,6 +7,7 @@ import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.adminservice.vo.UserWithRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,6 +71,7 @@ public class UserController {
      * @see UserService#queryUsers2(String, String)
      */
     @RequestMapping(value = "/user/queryUsers", method = RequestMethod.GET)
+    //@PreAuthorize("hasPermission('query_all_users', 'read')")
     public List<User> queryUser() {
         return userService.queryUsers();
     }
