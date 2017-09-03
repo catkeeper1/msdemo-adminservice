@@ -18,8 +18,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 
 @Configuration
-@Import({ResourceServerConfig.class})
-@EnableResourceServer
+//@Import({ResourceServerConfig.class})
+//@EnableResourceServer
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
