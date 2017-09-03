@@ -14,8 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 
@@ -31,7 +29,7 @@ public class UserRoleRepositoryTests {
     private TestEntityManager testEntityManager;
 
     @Test
-    public void testFindUserRoleCode(){
+    public void testFindUserRoleCode() {
         final PageRequest page = new PageRequest(
             0, 3, new Sort(
             new Sort.Order(Sort.Direction.DESC, "user_Name"))
@@ -45,7 +43,7 @@ public class UserRoleRepositoryTests {
     }
 
     @Test
-    public void testFindUserRoleCode2(){
+    public void testFindUserRoleCode2() {
         final PageRequest page = new PageRequest(
             1, 1, new Sort(
             new Sort.Order(Sort.Direction.DESC, "user_Name"))

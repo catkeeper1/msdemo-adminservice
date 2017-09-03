@@ -37,10 +37,10 @@ public class UserQueryView implements Serializable {
 
     @Override
     public String toString() {
-        return "UserQueryView{" +
-                "userName='" + userName + '\'' +
-                ", userDescription='" + userDescription + '\'' +
-                ", locked='" + locked + '\'' +
-                '}';
+        return "UserQueryView{"
+            + "userName='" + userName + '\''
+            + ", userDescription='" + userDescription + '\''
+            + ", locked='" + locked + '\''
+            + '}';
     }
 }

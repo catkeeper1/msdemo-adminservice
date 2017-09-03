@@ -1,12 +1,9 @@
 package org.ckr.msdemo.adminservice.apitest;
 
-import feign.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
 
 import java.util.Map;
 
@@ -15,20 +12,25 @@ import java.util.Map;
  */
 
 @SpringBootApplication(scanBasePackages = "org.ckr.msdemo.adminservice")
-@EnableFeignClients(basePackages ="org.ckr.msdemo.adminservice")
+@EnableFeignClients(basePackages = "org.ckr.msdemo.adminservice")
 public class BeanContainer {
 
     private static ConfigurableApplicationContext applicationContext = null;
-
 
 
     static {
         SpringApplication app = new SpringApplication(BeanContainer.class);
         app.setWebEnvironment(false);
 
-        applicationContext = app.run(new String[]{});
+        applicationContext = app.run(new String[] {});
     }
 
+    /**
+     * retrieve bean according to its type.
+     *
+     * @param clazz Class
+     * @return Object
+     */
     public static Object getBean(Class clazz) {
         Map map = applicationContext.getBeansOfType(clazz);
 

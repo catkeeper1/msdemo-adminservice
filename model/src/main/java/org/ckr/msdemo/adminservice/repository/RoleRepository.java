@@ -10,15 +10,17 @@ import java.sql.Timestamp;
 public interface RoleRepository extends JpaRepository<Role, String> {
 
     /**
-     * find role with role code
+     * find role with role code.
+     *
      * @param roleCode role code
      * @return role with role code
      */
     Role findByRoleCode(String roleCode);
 
     /**
-     * find role with role code and last modified time
-     * @param roleCode rold code
+     * find role with role code and last modified time.
+     *
+     * @param roleCode              rold code
      * @param lastModifiedTimestamp last modified time
      * @return role with role code and last modified time
      */

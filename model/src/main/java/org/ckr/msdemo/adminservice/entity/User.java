@@ -23,35 +23,31 @@ import javax.persistence.Version;
         @Index(name = "user_index_2", columnList = "IS_LOCKED", unique = false)})
 public class User implements Serializable {
 
+    private static final long serialVersionUID = 7028458717583173058L;
+    private String userName;
+    private String userDescription;
+    private String password;
+    private Boolean locked;
+    private List<Role> roles;
+    private Timestamp lastModifiedTimestamp;
+
+
     public User() {
         super();
     }
 
+
+    /**
+     * Constract user with user name and description.
+     *
+     * @param userName
+     * @param userDescription
+     */
     public User(String userName, String userDescription) {
         super();
         this.userName = userName;
         this.userDescription = userDescription;
     }
-
-    private static final long serialVersionUID = 7028458717583173058L;
-
-
-    private String userName;
-
-
-    private String userDescription;
-
-
-    private String password;
-
-
-    private Boolean locked;
-
-
-    private List<Role> roles;
-
-
-    private Timestamp lastModifiedTimestamp;
 
     /**
      * The unique ID of a user.

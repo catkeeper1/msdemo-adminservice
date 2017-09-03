@@ -1,5 +1,8 @@
 package org.ckr.msdemo.adminservice.client;
 
+import static org.ckr.msdemo.adminservice.client.ServiceNameConstant.ADMIN_SERVICE;
+import static org.ckr.msdemo.adminservice.client.ServiceNameConstant.ADMIN_SERVICE_CONTEXT;
+
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -9,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
-
-import static org.ckr.msdemo.adminservice.client.ServiceNameConstant.ADMIN_SERVICE;
-import static org.ckr.msdemo.adminservice.client.ServiceNameConstant.ADMIN_SERVICE_CONTEXT;
 
 /**
  * Created by Administrator on 2017/8/5.

@@ -6,7 +6,7 @@ import org.springframework.context.support.AbstractMessageSource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 /**
- * Created by Administrator on 2017/6/11.
+ * Configuration on specifying how to get properties.
  */
 @Configuration
 public class MessageResourceConfig {
