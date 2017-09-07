@@ -86,11 +86,11 @@
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.ckr.msdemo</groupId>
-            <artifactId>authentication-server-client</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.ckr.msdemo</groupId>-->
+            <!--<artifactId>authentication-server-client</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>commons-lang</groupId>

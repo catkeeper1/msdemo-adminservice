@@ -6,6 +6,7 @@ spring:
   datasource:
     type: org.apache.commons.dbcp2.BasicDataSource
     username: root
+    password: rootpassword
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1/adminservice
 

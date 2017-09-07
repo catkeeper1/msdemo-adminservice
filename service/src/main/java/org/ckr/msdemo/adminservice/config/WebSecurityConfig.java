@@ -1,9 +1,9 @@
 package org.ckr.msdemo.adminservice.config;
 
 import org.ckr.msdemo.adminservice.service.SecurityEvaluatorService;
-import org.ckr.msdemo.reserver.config.EnableJWTTokenAuthentication;
-import org.ckr.msdemo.reserver.config.ResourceServerConfig;
-import org.ckr.msdemo.reserver.config.ResourceServerSecurityConfigurer;
+//import org.ckr.msdemo.reserver.config.EnableJWTTokenAuthentication;
+//import org.ckr.msdemo.reserver.config.ResourceServerConfig;
+//import org.ckr.msdemo.reserver.config.ResourceServerSecurityConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
