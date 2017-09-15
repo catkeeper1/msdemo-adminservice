@@ -48,6 +48,11 @@
                         <artifactId>exceptions</artifactId>
                         <version>${project.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.ckr.msdemo</groupId>
+                        <artifactId>pagination</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
                 </dependencies>
             </plugin>
 
