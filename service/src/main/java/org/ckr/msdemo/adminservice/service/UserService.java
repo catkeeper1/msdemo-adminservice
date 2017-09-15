@@ -148,7 +148,7 @@ public class UserService {
     public List<User> queryUsers() {
         //Authentication a = SecurityContextHolder.getContext().getAuthentication();
 
-        //LOG.debug("user ID is {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        LOG.debug("user ID is {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return userRepository.findAll();
     }
 
