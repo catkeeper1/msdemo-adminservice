@@ -1,0 +1,31 @@
+@startuml
+
+hide circle
+hide empty members
+
+entity Entity {
+   * identifying_attribute : String
+   --
+   * mandatory_attribute **bold**
+   **optional_attribute**
+}
+
+
+entity B {
+   * identifying_attribute
+   --
+   * mandatory_attribute **bold**
+   **optional_attribute**
+}
+
+' zero or one
+Entity::identifying_attribute "sdf" |o--o| "ss" B::identifying_attribute:comment
+
+
+' exactly one
+C ||--|| D:ddd
+
+E }o--o{ F
+G }|--|{ H
+
+@enduml
