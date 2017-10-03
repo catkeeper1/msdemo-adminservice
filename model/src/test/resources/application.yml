@@ -6,3 +6,12 @@ spring:
 liquibase:
   change-log: classpath:db.changelog_adminservice_test_master.xml
   contexts: UT
+
+
+logging:
+  level:
+    org.springframework:
+      web: DEBUG
+      orm: DEBUG
+      security: DEBUG
+    org.ckr: DEBUG
