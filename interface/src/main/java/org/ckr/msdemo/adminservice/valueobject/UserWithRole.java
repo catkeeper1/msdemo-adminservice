@@ -1,4 +1,4 @@
-package org.ckr.msdemo.adminservice.vo;
+package org.ckr.msdemo.adminservice.valueobject;
 
 import java.io.Serializable;
 

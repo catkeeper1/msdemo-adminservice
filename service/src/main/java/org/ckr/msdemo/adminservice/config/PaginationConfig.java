@@ -1,5 +1,6 @@
 package org.ckr.msdemo.adminservice.config;
 
+import org.ckr.msdemo.pagination.EnablePagination;
 import org.ckr.msdemo.pagination.JpaRestPaginationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import javax.persistence.EntityManager;
  * Configure Pagination module and init JpaRestPaginationService.
  */
 @Configuration
+@EnablePagination
 public class PaginationConfig {
 
     @Autowired
