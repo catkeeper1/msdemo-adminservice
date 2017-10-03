@@ -82,7 +82,7 @@
 
         <dependency>
             <groupId>org.ckr.msdemo</groupId>
-            <artifactId>pagination</artifactId>
+            <artifactId>db-access</artifactId>
             <version>${project.version}</version>
         </dependency>
 
