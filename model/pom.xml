@@ -47,6 +47,24 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.ckr.msdemo</groupId>
+            <artifactId>admin-service-interface</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ckr.msdemo</groupId>
+            <artifactId>db-access</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ckr.msdemo</groupId>
+            <artifactId>utility</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
     <build>
 
