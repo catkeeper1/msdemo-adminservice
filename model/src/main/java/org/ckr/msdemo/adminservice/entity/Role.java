@@ -1,5 +1,7 @@
 package org.ckr.msdemo.adminservice.entity;
 
+import org.ckr.msdemo.entity.BaseEntity;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import javax.persistence.Column;
@@ -10,7 +12,7 @@ import javax.persistence.Version;
 
 @Entity()
 @Table(name = "ROLE")
-public class Role implements Serializable {
+public class Role extends BaseEntity {
 
     private static final long serialVersionUID = 4939126105741432131L;
 
@@ -20,7 +22,7 @@ public class Role implements Serializable {
 
     private String roleDescription;
 
-    private Timestamp lastModifiedTimestamp;
+
 
     @Id
     @Column(name = "ROLE_CODE", unique = true, nullable = false, length = 100)
@@ -51,15 +53,7 @@ public class Role implements Serializable {
         this.roleDescription = roleDescription;
     }
 
-    @Version
-    @Column(name = "LAST_MODIFIED_TIMESTAMP")
-    public Timestamp getLastModifiedTimestamp() {
-        return lastModifiedTimestamp;
-    }
 
-    public void setLastModifiedTimestamp(Timestamp lastModifiedTimestamp) {
-        this.lastModifiedTimestamp = lastModifiedTimestamp;
-    }
 
 
 }

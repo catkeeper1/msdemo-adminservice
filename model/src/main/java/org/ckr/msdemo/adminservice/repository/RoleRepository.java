@@ -24,7 +24,7 @@ public interface RoleRepository extends JpaRepository<Role, String> {
      * @param lastModifiedTimestamp last modified time
      * @return role with role code and last modified time
      */
-    Role findByRoleCodeAndLastModifiedTimestampGreaterThanEqual(String roleCode, Timestamp lastModifiedTimestamp);
+    Role findByRoleCodeAndUpdatedAtGreaterThanEqual(String roleCode, Timestamp lastModifiedTimestamp);
 
 
 }

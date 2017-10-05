@@ -1,7 +1,8 @@
 package org.ckr.msdemo.adminservice.entity;
 
+import org.ckr.msdemo.entity.BaseEntity;
+
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 /**
  * This table store user info.
@@ -21,7 +21,7 @@ import javax.persistence.Version;
 @Table(name = "USER",
     indexes = {@Index(name = "user_index_1", columnList = "USER_DESCRIPTION ASC ,IS_LOCKED DESC", unique = true),
         @Index(name = "user_index_2", columnList = "IS_LOCKED", unique = false)})
-public class User implements Serializable {
+public class User extends BaseEntity {
 
     private static final long serialVersionUID = 7028458717583173058L;
     private String userName;
@@ -29,7 +29,7 @@ public class User implements Serializable {
     private String password;
     private Boolean locked;
     private List<Role> roles;
-    private Timestamp lastModifiedTimestamp;
+
 
 
     public User() {
@@ -101,14 +101,6 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    @Version
-    @Column(name = "LAST_MODIFIED_TIMESTAMP")
-    public Timestamp getLastModifiedTimestamp() {
-        return lastModifiedTimestamp;
-    }
 
-    public void setLastModifiedTimestamp(Timestamp lastModifiedTimestamp) {
-        this.lastModifiedTimestamp = lastModifiedTimestamp;
-    }
 
 }

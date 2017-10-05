@@ -1,5 +1,7 @@
 package org.ckr.msdemo.adminservice.entity;
 
+import org.ckr.msdemo.entity.BaseEntity;
+
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity()
 @Table(name = "MENU")
-public class Menu implements Serializable {
+public class Menu extends BaseEntity {
 
     private static final long serialVersionUID = -9008334019361686964L;
 

@@ -10,7 +10,9 @@
                         primaryKey="USER_NAME"
                         tableName="USER">
             <column name="IS_LOCKED" type="BOOLEAN"/>
-            <column name="LAST_MODIFIED_TIMESTAMP" type="DATE"/>
+            <column name="CREATED_AT" type="DATE"/>
+            <column name="UPDATED_AT" type="DATE"/>
+            <column name="VERSION_NO" type="NUMERIC"/>
         </loadUpdateData>
     </changeSet>
 </databaseChangeLog>

@@ -49,14 +49,14 @@ public class UserRepositoryTests {
     public void testfindByUserNameAndLastModifiedTimestampGreaterThan() {
         User userPersist = new User("xiaoming", "sb");
         Date nowDate = new Date();
-        Timestamp nowTimestamp = new Timestamp(nowDate.getTime());
-        userPersist.setLastModifiedTimestamp(nowTimestamp);
+        Timestamp tenHoursEarlier = new Timestamp(System.currentTimeMillis() - 1000 * 3600 * 10);
+
         this.testEntityManager.persist(userPersist);
         User user = this.userRepository
-            .findByUserNameAndLastModifiedTimestampGreaterThanEqual("xiaoming", nowTimestamp);
+            .findByUserNameAndUpdatedAtGreaterThanEqual("xiaoming", tenHoursEarlier);
         assertThat(user.getUserName()).isEqualTo("xiaoming");
         assertThat(user.getUserDescription()).isEqualTo("sb");
-        assertThat(user.getLastModifiedTimestamp()).isEqualTo(nowTimestamp);
+
     }
 
     @Test

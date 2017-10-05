@@ -9,7 +9,9 @@
         <loadUpdateData file="org/ckr/msdemo/adminservice/entity/ROLE.csv"
                         primaryKey="ROLE_CODE"
                         tableName="ROLE">
-            <column name="LAST_MODIFIED_TIMESTAMP" type="DATE"/>
+            <column name="CREATED_AT" type="DATE"/>
+            <column name="UPDATED_AT" type="DATE"/>
+            <column name="VERSION_NO" type="NUMERIC"/>
         </loadUpdateData>
     </changeSet>
 </databaseChangeLog>
