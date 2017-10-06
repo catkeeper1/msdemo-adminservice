@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
@@ -90,7 +91,7 @@ public class User extends BaseEntity {
         this.locked = locked;
     }
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany()
     @JoinTable(name = "USER_ROLE",
         joinColumns = {@JoinColumn(name = "USER_NAME")},
         inverseJoinColumns = {@JoinColumn(name = "ROLE_CODE")})
