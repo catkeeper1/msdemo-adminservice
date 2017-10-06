@@ -31,7 +31,13 @@
     </modules>
 
     <dependencies>
-
+        <!-- This is used to generate javadoc only. when javadoc is generated, below source will be included -->
+        <dependency>
+            <groupId>org.ckr.msdemo</groupId>
+            <artifactId>db-access</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 
