@@ -1,5 +1,6 @@
 package org.ckr.msdemo.adminservice.entity;
 
+import com.google.common.base.MoreObjects;
 import org.ckr.msdemo.entity.BaseEntity;
 
 import java.io.Serializable;
@@ -54,6 +55,13 @@ public class Role extends BaseEntity {
     }
 
 
-
-
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("roleCode", roleCode)
+                .add("parentRoleCode", parentRoleCode)
+                .add("roleDescription", roleDescription)
+                .toString()
+               + super.toString();
+    }
 }

@@ -1,5 +1,6 @@
 package org.ckr.msdemo.adminservice.entity;
 
+import com.google.common.base.MoreObjects;
 import org.ckr.msdemo.entity.BaseEntity;
 
 import java.io.Serializable;
@@ -102,5 +103,15 @@ public class User extends BaseEntity {
     }
 
 
-
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("userName", userName)
+                .add("userDescription", userDescription)
+                .add("password", "MASKED")
+                .add("locked", locked)
+                .add("roles", roles)
+                .toString()
+               + super.toString();
+    }
 }

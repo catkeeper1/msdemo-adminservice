@@ -1,5 +1,6 @@
 package org.ckr.msdemo.adminservice.entity;
 
+import com.google.common.base.MoreObjects;
 import org.ckr.msdemo.entity.BaseEntity;
 
 import java.io.Serializable;
@@ -77,4 +78,16 @@ public class Menu extends BaseEntity {
         this.module = module;
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("code", code)
+                .add("parentCode", parentCode)
+                .add("description", description)
+                .add("functionPoint", functionPoint)
+                .add("module", module)
+                .toString()
+               + super.toString();
+
+    }
 }
