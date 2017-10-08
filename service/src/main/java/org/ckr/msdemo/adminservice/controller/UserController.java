@@ -85,7 +85,8 @@ public class UserController {
      * @see UserService#queryUsers2(String, String)
      */
     @RequestMapping(value = "/user/queryUsers2", method = RequestMethod.GET)
-    public List<UserQueryView> queryUser2(@RequestParam String userName, @RequestParam String userDesc) {
+    public List<UserQueryView> queryUser2(@RequestParam("userName") String userName,
+                                          @RequestParam("userDesc") String userDesc) {
         return userService.queryUsers2(userName, userDesc);
     }
 
