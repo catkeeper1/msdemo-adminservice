@@ -20,9 +20,9 @@ public class SecurityEvaluatorService implements PermissionEvaluator {
             return true;
         }
 
-        if (!(authentication instanceof OAuth2Authentication)) {
-            return false;
-        }
+//        if (!(authentication instanceof OAuth2Authentication)) {
+//            return false;
+//        }
 
         OAuth2Authentication oauth2Authentication = (OAuth2Authentication) authentication;
 
