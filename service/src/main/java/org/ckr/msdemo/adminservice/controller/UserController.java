@@ -1,5 +1,6 @@
 package org.ckr.msdemo.adminservice.controller;
 
+import org.ckr.msdemo.adminservice.constant.PermissionExpression;
 import org.ckr.msdemo.adminservice.entity.User;
 import org.ckr.msdemo.adminservice.service.UserService;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
@@ -27,6 +28,7 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
 
     /**
      * Query user detail info by user ID.
@@ -85,6 +87,7 @@ public class UserController {
      * @see UserService#queryUsers2(String, String)
      */
     @RequestMapping(value = "/user/queryUsers2", method = RequestMethod.GET)
+    @PreAuthorize(PermissionExpression.AUTHENTICATED)
     public List<UserQueryView> queryUser2(@RequestParam("userName") String userName,
                                           @RequestParam("userDesc") String userDesc) {
         return userService.queryUsers2(userName, userDesc);

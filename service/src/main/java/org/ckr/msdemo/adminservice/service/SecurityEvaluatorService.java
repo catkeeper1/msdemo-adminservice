@@ -16,7 +16,7 @@ public class SecurityEvaluatorService implements PermissionEvaluator {
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
 
-        if ("public".equals(permission)) {
+        if ("PUBLIC".equals(permission)) {
             return true;
         }
 
