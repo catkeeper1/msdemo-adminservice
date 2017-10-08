@@ -12,7 +12,13 @@
             </column>
             <column name="PARENT_ROLE_CODE" type="java.sql.Types.VARCHAR(100)"/>
             <column name="ROLE_DESCRIPTION" type="java.sql.Types.VARCHAR(100)"/>
-            <column name="LAST_MODIFIED_TIMESTAMP" type="java.sql.Types.TIMESTAMP"/>
+            <column name="CREATED_AT" type="java.sql.Types.TIMESTAMP"/>
+            <column name="CREATED_BY" type="java.sql.Types.VARCHAR(200)"/>
+            <column name="CREATED_BY_DESC" type="java.sql.Types.VARCHAR(200)"/>
+            <column name="UPDATED_AT" type="java.sql.Types.TIMESTAMP"/>
+            <column name="UPDATED_BY" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="UPDATED_BY_DESC" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="VERSION_NO" type="java.sql.Types.BIGINT"/>
         </createTable>
     </changeSet>
     <changeSet author="liquibase-docs" id="createTablePk-org.ckr.msdemo.adminservice.entity.ROLE">

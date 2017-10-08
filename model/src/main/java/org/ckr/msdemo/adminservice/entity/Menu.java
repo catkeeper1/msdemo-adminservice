@@ -1,5 +1,8 @@
 package org.ckr.msdemo.adminservice.entity;
 
+import com.google.common.base.MoreObjects;
+import org.ckr.msdemo.entity.BaseEntity;
+
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity()
 @Table(name = "MENU")
-public class Menu implements Serializable {
+public class Menu extends BaseEntity {
 
     private static final long serialVersionUID = -9008334019361686964L;
 
@@ -75,4 +78,16 @@ public class Menu implements Serializable {
         this.module = module;
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("code", code)
+                .add("parentCode", parentCode)
+                .add("description", description)
+                .add("functionPoint", functionPoint)
+                .add("module", module)
+                .toString()
+               + super.toString();
+
+    }
 }

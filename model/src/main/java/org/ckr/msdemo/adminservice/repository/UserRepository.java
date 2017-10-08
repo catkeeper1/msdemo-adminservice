@@ -26,7 +26,7 @@ public interface UserRepository extends JpaRepository<User, String> {
      * @param lastModifiedTimestamp last modified time
      * @return user with user name and last modified time
      */
-    User findByUserNameAndLastModifiedTimestampGreaterThanEqual(String username, Timestamp lastModifiedTimestamp);
+    User findByUserNameAndUpdatedAtGreaterThanEqual(String username, Timestamp lastModifiedTimestamp);
 
     /**
      * find users whose name start with prefix specified with {@link Pageable}.
