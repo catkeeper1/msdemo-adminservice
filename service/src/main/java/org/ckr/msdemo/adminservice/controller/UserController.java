@@ -71,7 +71,7 @@ public class UserController {
      * @see UserService#queryUsers2(String, String)
      */
     @RequestMapping(value = "/user/queryUsers", method = RequestMethod.GET)
-    @PreAuthorize("hasPermission('query_all_users', 'read')")
+    @PreAuthorize("hasPermission(this, 'query_all_user')")
     public List<User> queryUsers() {
         return userService.queryUsers();
     }
