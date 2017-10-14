@@ -21,8 +21,8 @@ import javax.persistence.Table;
  */
 @Entity()
 @Table(name = "USER",
-    indexes = {@Index(name = "user_index_1", columnList = "USER_DESCRIPTION ASC ,IS_LOCKED DESC", unique = true),
-        @Index(name = "user_index_2", columnList = "IS_LOCKED", unique = false)})
+       indexes = {@Index(name = "user_index_1", columnList = "USER_DESCRIPTION ASC ,IS_LOCKED DESC", unique = true),
+                  @Index(name = "user_index_2", columnList = "IS_LOCKED", unique = false)})
 public class User extends BaseEntity {
 
     private static final long serialVersionUID = 7028458717583173058L;
