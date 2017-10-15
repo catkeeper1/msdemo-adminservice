@@ -1,8 +1,9 @@
 package org.ckr.msdemo.adminservice.controller;
 
-import org.ckr.msdemo.exception.handler.RestExceptionHandler;
+import org.ckr.msdemo.exception.util.RestExceptionHandler;
 import org.ckr.msdemo.exception.valueobject.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.support.AbstractMessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * The global exception handler for all REST API.
- * It just catch all exception and call {@link RestExceptionHandler#handleException(Throwable, AbstractMessageSource)}
+ * It just catch all exception and call {@link RestExceptionHandler#handleException(Throwable, MessageSource)}
  * to generate response.
  */
 @ControllerAdvice(annotations = RestController.class)

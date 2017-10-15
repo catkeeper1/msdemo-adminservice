@@ -20,8 +20,8 @@ public class MessageResourceConfig {
 
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 
-        messageSource.setBasenames("/WEB-INF/messages/SysMessage",
-                                   "/WEB-INF/messages/SecurityMessage");
+        messageSource.setBasenames("classpath:/messages/SysMessage",
+                                   "classpath:/messages/SecurityMessage");
 
         messageSource.setCacheSeconds(5);
         messageSource.setUseCodeAsDefaultMessage(true);
