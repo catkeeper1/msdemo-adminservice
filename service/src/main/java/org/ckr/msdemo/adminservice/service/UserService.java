@@ -1,5 +1,6 @@
 package org.ckr.msdemo.adminservice.service;
 
+import com.google.common.base.Strings;
 import org.ckr.msdemo.adminservice.annotation.ReadOnlyTransaction;
 import org.ckr.msdemo.adminservice.annotation.ReadWriteTransaction;
 import org.ckr.msdemo.adminservice.entity.Role;
@@ -98,12 +99,8 @@ public class UserService {
         LOG.debug("create new user.");
 
         User user = new User();
-        validateUserInfo(userForm);
 
-        if (this.userRepository.findByUserName(userForm.getUserName()) != null) {
-            throw new ApplicationException("duplicated user is found.")
-                      .addMessage("security.maintain_user.duplicated_user");
-        }
+        validateUserInfo(userForm);
 
         user.setUserName(userForm.getUserName());
         user.setUserDescription(userForm.getUserDescription());
@@ -119,17 +116,27 @@ public class UserService {
      * <li>user name is not empty
      * <li>user description is not empty
      *
-     * @param user UserServiceForm
+     * @param userForm UserServiceForm
      */
+    private void validateUserInfo(UserServiceForm userForm) {
 
-    private void validateUserInfo(UserServiceForm user) {
-        if (user.getUserName() == null || "".equals(user.getUserName())) {
-            throw new ApplicationException("security.maintain_user.user_name_empty");
+        ApplicationException applicationException =
+                new ApplicationException("exceptions for user creation.");
+
+        if (Strings.isNullOrEmpty(userForm.getUserName())) {
+            applicationException.addMessage("security.maintain_user.user_name_empty");
         }
 
-        if (user.getUserDescription() == null || "".equals(user.getUserDescription())) {
-            throw new ApplicationException("security.maintain_user.user_desc_empty");
+        if (Strings.isNullOrEmpty(userForm.getUserDescription())) {
+            applicationException.addMessage("security.maintain_user.user_desc_empty");
         }
+
+        if (!Strings.isNullOrEmpty(userForm.getUserName()) &&
+            this.userRepository.findByUserName(userForm.getUserName()) != null) {
+            applicationException.addMessage("security.maintain_user.duplicated_user");
+        }
+
+        applicationException.throwThisIfValid();
     }
 
     /**
@@ -165,11 +172,11 @@ public class UserService {
     public List<UserQueryView> queryUsers2(String userName, String userDesc) {
         Map<String, Object> params = new HashMap<String, Object>();
 
-        if (!StringUtils.isEmpty(userName)) {
+        if (!Strings.isNullOrEmpty(userName)) {
             params.put("userName", userName);
         }
 
-        if (!StringUtils.isEmpty(userDesc)) {
+        if (!Strings.isNullOrEmpty(userDesc)) {
             params.put("userDesc", "%" + userDesc + "%");
         }
 

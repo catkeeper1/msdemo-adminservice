@@ -1,5 +1,6 @@
 package org.ckr.msdemo.adminservice.service;
 
+import com.google.common.base.Strings;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Tested;
@@ -10,6 +11,11 @@ import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.exception.ApplicationException;
 import org.ckr.msdemo.pagination.JpaRestPaginationService;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -58,34 +64,78 @@ public class UserServiceMockedTests {
         }};
     }
 
-    @Test
-    public void testCreateUser_userAlreadyExist() {
 
-        UserServiceForm form = new UserServiceForm();
+    /**
+     * Test the validation logic for createUser method.
+     */
+    @RunWith(Parameterized.class)
+    public static class CreateUserValidationMockedTests {
 
-        form.setUserName("userName");
-        form.setUserDescription("userDescrption");
-        form.setLocked(Boolean.TRUE);
-        form.setPassword("password");
+        @Tested
+        private UserService userService;
 
-        new Expectations() {{
-            userRepository.findByUserName("userName");
-            result = new User();
+        @Injectable
+        private UserRepository userRepository;
 
-        }};
+        @Injectable
+        private JpaRestPaginationService jpaRestPaginationService;
 
-        try {
-            this.userService.createUser(form);
-        } catch (ApplicationException ae) {
-            assertThat(ae.getMessageList().size()).isEqualTo(1);
-            assertThat(ae.getMessageList().get(0).getMessageCode())
-                         .isEqualTo("security.maintain_user.duplicated_user");
+        private String userName;
+        private String userDescription;
+        private User previousUser;
+        private String messageCode;
 
-            return;
+        public CreateUserValidationMockedTests(String userName,
+                                               String userDescription,
+                                               User previousUser,
+                                               String messageCode) {
+            this.userName = userName;
+            this.userDescription = userDescription;
+            this.previousUser = previousUser;
+            this.messageCode = messageCode;
         }
 
-        fail("ApplicationException is expected.");
+        @Parameterized.Parameters
+        public static Collection testParams() {
+            return Arrays.asList(new Object[][] {
+                //user name    user description   previous user   exception message code
+                { ""         , "userDescription", null      ,     "security.maintain_user.user_name_empty" },
+                { "userName" , ""               , null      ,     "security.maintain_user.user_desc_empty"},
+                { "userName" , "userDesc"       , new User(),     "security.maintain_user.duplicated_user"}
+            });
+        }
 
+        @Test
+        public void testCreateUser_withErrorMessage() {
 
+            UserServiceForm form = new UserServiceForm();
+
+            form.setUserName(this.userName);
+            form.setUserDescription(this.userDescription);
+
+            final CreateUserValidationMockedTests toThis = this;
+
+            if(!Strings.isNullOrEmpty(this.userName)) {
+                new Expectations() {{
+                    userRepository.findByUserName(toThis.userName);
+                    result = toThis.previousUser;
+                }};
+            }
+
+            try {
+                this.userService.createUser(form);
+            } catch (ApplicationException ae) {
+                assertThat(ae.getMessageList().size()).isGreaterThan(0);
+                assertThat(ae.getMessageList()).contains(
+                    new ApplicationException.ExceptionMessage(toThis.messageCode, (Object[]) null)
+                );
+
+                return;
+            }
+
+            fail("ApplicationException is expected.");
+
+        }
     }
+
 }
