@@ -5,6 +5,7 @@ import org.ckr.msdemo.entity.BaseEntity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,6 +39,22 @@ public class User extends BaseEntity {
         super();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(userName, user.userName) &&
+                Objects.equals(userDescription, user.userDescription) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(locked, user.locked) &&
+                Objects.equals(roles, user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userName, userDescription, password, locked, roles);
+    }
 
     /**
      * Constract user with user name and description.

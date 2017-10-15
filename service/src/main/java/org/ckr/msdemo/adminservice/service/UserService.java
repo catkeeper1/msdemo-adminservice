@@ -101,7 +101,8 @@ public class UserService {
         validateUserInfo(userForm);
 
         if (this.userRepository.findByUserName(userForm.getUserName()) != null) {
-            throw new ApplicationException("security.maintain_user.duplicated_user");
+            throw new ApplicationException("duplicated user is found.")
+                      .addMessage("security.maintain_user.duplicated_user");
         }
 
         user.setUserName(userForm.getUserName());
@@ -131,6 +132,11 @@ public class UserService {
         }
     }
 
+    /**
+     * Need to be implemented
+     * @param pwd  original password.
+     * @return     encoded password.
+     */
     private String encodePassword(String pwd) {
         return pwd;
     }
