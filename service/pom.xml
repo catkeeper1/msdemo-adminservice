@@ -80,8 +80,6 @@
             <version>${project.version}</version>
         </dependency>
 
-
-
         <dependency>
             <groupId>org.ckr.msdemo</groupId>
             <artifactId>authentication-server-client</artifactId>
@@ -91,6 +89,22 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.hateoas</groupId>
+            <artifactId>spring-hateoas</artifactId>
+            <version>0.23.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-rest-hal-browser</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jolokia</groupId>
+            <artifactId>jolokia-core</artifactId>
         </dependency>
 
     </dependencies>
