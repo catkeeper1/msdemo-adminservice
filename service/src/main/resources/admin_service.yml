@@ -29,7 +29,10 @@ endpoints:
   sensitive: false
 
 management:
+  context-path: /manage
   port: 8081
   address: 127.0.0.1
   security:
     enabled: false
+
+jolokia.config.debug: true
