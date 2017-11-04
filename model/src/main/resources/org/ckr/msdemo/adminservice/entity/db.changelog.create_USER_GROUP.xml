@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="liquibase-docs" id="createTable-org.ckr.msdemo.adminservice.entity.USER_GROUP">
+
+        <createTable tableName="USER_GROUP">
+            <column name="GROUP_CODE" type="java.sql.Types.VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GROUP_DESCRIPTION" type="java.sql.Types.VARCHAR(200)"/>
+            <column name="PARENT_GROUP_CODE" type="java.sql.Types.VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase-docs" id="createTablePk-org.ckr.msdemo.adminservice.entity.USER_GROUP">
+
+        <addPrimaryKey constraintName="PK_USER_GROUP" columnNames="GROUP_CODE" tableName="USER_GROUP" />
+    </changeSet>
+</databaseChangeLog>
