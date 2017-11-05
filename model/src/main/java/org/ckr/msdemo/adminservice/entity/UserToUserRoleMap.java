@@ -39,7 +39,7 @@ public class UserToUserRoleMap extends BaseEntity {
         this.primaryKey = primaryKey;
     }
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "USER_NAME", insertable = false, updatable = false)
     public User getUser() {
         return user;
@@ -47,7 +47,7 @@ public class UserToUserRoleMap extends BaseEntity {
 
 
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "ROLE_CODE", insertable = false, updatable = false)
     public UserRole getUserRole() {
         return userRole;
