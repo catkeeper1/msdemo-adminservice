@@ -7,6 +7,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -26,14 +29,15 @@ public class Menu extends BaseEntity {
     private String description;
 
 
-    private String functionPoint;
+    private String functionPointCode;
 
 
     private String module;
 
+    private FunctionPoint functionPoint;
 
     @Id
-    @Column(name = "CODE", unique = true, nullable = false, length = 100)
+    @Column(name = "MENU_CODE", unique = true, nullable = false, length = 100)
     public String getCode() {
         return code;
     }
@@ -42,7 +46,7 @@ public class Menu extends BaseEntity {
         this.code = code;
     }
 
-    @Column(name = "PARENT_CODE", length = 100)
+    @Column(name = "PARENT_MENU_CODE", length = 100)
     public String getParentCode() {
         return parentCode;
     }
@@ -51,7 +55,7 @@ public class Menu extends BaseEntity {
         this.parentCode = parentCode;
     }
 
-    @Column(name = "DESCRIPTION", length = 200)
+    @Column(name = "MENU_DESCRIPTION", length = 200)
     public String getDescription() {
         return description;
     }
@@ -60,13 +64,13 @@ public class Menu extends BaseEntity {
         this.description = description;
     }
 
-    @Column(name = "FUNCTION_POINT", length = 100)
-    public String getFunctionPoint() {
-        return functionPoint;
+    @Column(name = "FUN_POINT_CODE", length = 100)
+    public String getFunctionPointCode() {
+        return functionPointCode;
     }
 
-    public void setFunctionPoint(String functionPoint) {
-        this.functionPoint = functionPoint;
+    public void setFunctionPointCode(String functionPointCode) {
+        this.functionPointCode = functionPointCode;
     }
 
     @Column(name = "MODULE", length = 100)
@@ -78,16 +82,24 @@ public class Menu extends BaseEntity {
         this.module = module;
     }
 
+    @OneToOne
+    @JoinColumn(name = "FUN_POINT_CODE", updatable = false, insertable = false)
+    public FunctionPoint getFunctionPoint() {
+        return this.functionPoint;
+    }
+
+    public void setFunctionPoint(FunctionPoint functionPoint) {
+        this.functionPoint = functionPoint;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("code", code)
                 .add("parentCode", parentCode)
                 .add("description", description)
-                .add("functionPoint", functionPoint)
+                .add("functionPointCode", functionPointCode)
                 .add("module", module)
-                .toString()
-               + super.toString();
-
+                .toString();
     }
 }

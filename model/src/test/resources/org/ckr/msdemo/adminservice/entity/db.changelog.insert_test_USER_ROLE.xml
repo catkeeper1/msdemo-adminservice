@@ -4,11 +4,14 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet author="liquibase-docs" id="insertTable-org.ckr.msdemo.adminservice.entity.USER" context="UT">
+    <changeSet author="liquibase-docs" id="insertTable-org.ckr.msdemo.adminservice.entity.USER_ROLE" context="UT">
 
         <loadUpdateData file="org/ckr/msdemo/adminservice/entity/test_USER_ROLE.csv"
-                        primaryKey="USER_NAME,ROLE_CODE"
+                        primaryKey="ROLE_CODE"
                         tableName="USER_ROLE">
+            <column name="CREATED_AT" type="DATE"/>
+            <column name="UPDATED_AT" type="DATE"/>
+            <column name="VERSION_NO" type="NUMERIC"/>
         </loadUpdateData>
     </changeSet>
 </databaseChangeLog>

@@ -9,6 +9,6 @@
 
     <!-- include other DB deployment script for testing only -->
     <include file="org/ckr/msdemo/adminservice/entity/db.changelog.insert_test_USER.xml"/>
-    <include file="org/ckr/msdemo/adminservice/entity/db.changelog.insert_test_ROLE.xml"/>
     <include file="org/ckr/msdemo/adminservice/entity/db.changelog.insert_test_USER_ROLE.xml"/>
+    <include file="org/ckr/msdemo/adminservice/entity/db.changelog.insert_test_USER_USER_ROLE_MAP.xml"/>
 </databaseChangeLog>

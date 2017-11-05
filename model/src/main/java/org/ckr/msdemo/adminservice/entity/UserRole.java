@@ -12,8 +12,8 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 @Entity()
-@Table(name = "ROLE")
-public class Role extends BaseEntity {
+@Table(name = "USER_ROLE")
+public class UserRole extends BaseEntity {
 
     private static final long serialVersionUID = 4939126105741432131L;
 

@@ -1,13 +1,13 @@
 package org.ckr.msdemo.adminservice.repository;
 
-import org.ckr.msdemo.adminservice.entity.Role;
+import org.ckr.msdemo.adminservice.entity.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, String> {
+public interface RoleRepository extends JpaRepository<UserRole, String> {
 
     /**
      * find role with role code.
@@ -15,7 +15,7 @@ public interface RoleRepository extends JpaRepository<Role, String> {
      * @param roleCode role code
      * @return role with role code
      */
-    Role findByRoleCode(String roleCode);
+    UserRole findByRoleCode(String roleCode);
 
     /**
      * find role with role code and last modified time.
@@ -24,7 +24,7 @@ public interface RoleRepository extends JpaRepository<Role, String> {
      * @param lastModifiedTimestamp last modified time
      * @return role with role code and last modified time
      */
-    Role findByRoleCodeAndUpdatedAtGreaterThanEqual(String roleCode, Timestamp lastModifiedTimestamp);
+    UserRole findByRoleCodeAndUpdatedAtGreaterThanEqual(String roleCode, Timestamp lastModifiedTimestamp);
 
 
 }

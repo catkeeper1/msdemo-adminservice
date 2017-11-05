@@ -2,7 +2,7 @@ package org.ckr.msdemo.adminservice.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.ckr.msdemo.adminservice.entity.Role;
+import org.ckr.msdemo.adminservice.entity.UserRole;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class RoleRepositoryTests {
 
     @Test
     public void testfindExistingByRoleCode() {
-        Role role = this.roleRepository.findByRoleCode("GROUP_ADMIN");
+        UserRole role = this.roleRepository.findByRoleCode("GROUP_ADMIN");
         assertThat(role.getRoleCode()).isEqualTo("GROUP_ADMIN");
     }
 

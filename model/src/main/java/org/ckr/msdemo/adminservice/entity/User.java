@@ -3,10 +3,7 @@ package org.ckr.msdemo.adminservice.entity;
 import com.google.common.base.MoreObjects;
 import org.ckr.msdemo.entity.BaseEntity;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +12,7 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -31,8 +29,9 @@ public class User extends BaseEntity {
     private String userDescription;
     private String password;
     private Boolean locked;
-    private List<Role> roles;
-
+    private String groupCode;
+    private List<UserRole> roles;
+    private UserGroup group;
 
 
     public User() {
@@ -93,27 +92,44 @@ public class User extends BaseEntity {
     }
 
     @ManyToMany()
-    @JoinTable(name = "USER_ROLE",
+    @JoinTable(name = "USER_USER_ROLE_MAP",
         joinColumns = {@JoinColumn(name = "USER_NAME")},
         inverseJoinColumns = {@JoinColumn(name = "ROLE_CODE")})
-    public List<Role> getRoles() {
+    public List<UserRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<UserRole> roles) {
         this.roles = roles;
     }
 
+    @Column(name = "GROUP_CODE", length = 100)
+    public String getGroupCode() {
+        return groupCode;
+    }
+
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "GROUP_CODE", insertable = false, updatable = false)
+    public UserGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(UserGroup group) {
+        this.group = group;
+    }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("userName", userName)
                 .add("userDescription", userDescription)
-                .add("password", "MASKED")
+                .add("password", password)
                 .add("locked", locked)
-                .add("roles", roles)
-                .toString()
-               + super.toString();
+                .add("groupCode", groupCode)
+                .toString();
     }
 }

@@ -7,11 +7,11 @@
     <changeSet author="liquibase-docs" id="createTable-org.ckr.msdemo.adminservice.entity.MENU">
 
         <createTable tableName="MENU">
-            <column name="CODE" type="java.sql.Types.VARCHAR(100)">
+            <column name="MENU_CODE" type="java.sql.Types.VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="PARENT_CODE" type="java.sql.Types.VARCHAR(100)"/>
-            <column name="DESCRIPTION" type="java.sql.Types.VARCHAR(200)"/>
+            <column name="PARENT_MENU_CODE" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="MENU_DESCRIPTION" type="java.sql.Types.VARCHAR(200)"/>
             <column name="FUNCTION_POINT" type="java.sql.Types.VARCHAR(100)"/>
             <column name="MODULE" type="java.sql.Types.VARCHAR(100)"/>
             <column name="CREATED_AT" type="java.sql.Types.TIMESTAMP"/>
@@ -25,6 +25,6 @@
     </changeSet>
     <changeSet author="liquibase-docs" id="createTablePk-org.ckr.msdemo.adminservice.entity.MENU">
 
-        <addPrimaryKey constraintName="PK_MENU" columnNames="CODE" tableName="MENU" />
+        <addPrimaryKey constraintName="PK_MENU" columnNames="MENU_CODE" tableName="MENU" />
     </changeSet>
 </databaseChangeLog>

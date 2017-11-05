@@ -7,6 +7,21 @@
     <changeSet author="liquibase-docs" id="createTable-org.ckr.msdemo.adminservice.entity.FUNCTION_POINT">
 
         <createTable tableName="FUNCTION_POINT">
+            <column name="FUN_POINT_CODE" type="java.sql.Types.VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FUN_POINT_DESCRIPTION" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="CREATED_AT" type="java.sql.Types.TIMESTAMP"/>
+            <column name="CREATED_BY" type="java.sql.Types.VARCHAR(200)"/>
+            <column name="CREATED_BY_DESC" type="java.sql.Types.VARCHAR(200)"/>
+            <column name="UPDATED_AT" type="java.sql.Types.TIMESTAMP"/>
+            <column name="UPDATED_BY" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="UPDATED_BY_DESC" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="VERSION_NO" type="java.sql.Types.BIGINT"/>
         </createTable>
+    </changeSet>
+    <changeSet author="liquibase-docs" id="createTablePk-org.ckr.msdemo.adminservice.entity.FUNCTION_POINT">
+
+        <addPrimaryKey constraintName="PK_FUNCTION_POINT" columnNames="FUN_POINT_CODE" tableName="FUNCTION_POINT" />
     </changeSet>
 </databaseChangeLog>
