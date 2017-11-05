@@ -92,9 +92,9 @@ public class User extends BaseEntity {
     }
 
     @ManyToMany()
-    @JoinTable(name = "USER_USER_ROLE_MAP",
-        joinColumns = {@JoinColumn(name = "USER_NAME")},
-        inverseJoinColumns = {@JoinColumn(name = "ROLE_CODE")})
+    @JoinTable(name = "USER_TO_USER_ROLE_MAP",
+        joinColumns = {@JoinColumn(name = "USER_NAME", updatable = false, insertable = false)},
+        inverseJoinColumns = {@JoinColumn(name = "ROLE_CODE", updatable = false, insertable = false)})
     public List<UserRole> getRoles() {
         return roles;
     }

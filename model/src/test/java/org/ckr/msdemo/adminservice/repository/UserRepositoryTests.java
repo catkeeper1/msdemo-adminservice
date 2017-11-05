@@ -3,6 +3,8 @@ package org.ckr.msdemo.adminservice.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.ckr.msdemo.adminservice.entity.User;
+import org.ckr.msdemo.adminservice.entity.UserGroup;
+import org.ckr.msdemo.adminservice.entity.UserRole;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class UserRepositoryTests {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserGroupRepository userGroupRepository;
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -35,6 +39,27 @@ public class UserRepositoryTests {
     public void testfindExistingByUserName() {
         User user = this.userRepository.findByUserName("ABC");
         assertThat(user.getUserName()).isEqualTo("ABC");
+
+        List<UserRole> roleList = user.getRoles();
+
+        UserGroup userGroup = new UserGroup();
+
+        userGroup.setGroupCode("test_group");
+
+        this.userGroupRepository.save(userGroup);
+        this.userGroupRepository.flush();
+
+        user.setGroup(userGroup);
+        this.userRepository.save(user);
+
+        testEntityManager.flush();
+        testEntityManager.clear();
+        user = this.userRepository.findByUserName(user.getUserName());
+
+
+
+        userGroup = user.getGroup();
+
     }
 
     @Test

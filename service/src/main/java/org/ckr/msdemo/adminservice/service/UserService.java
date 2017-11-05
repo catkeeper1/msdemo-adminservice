@@ -3,7 +3,7 @@ package org.ckr.msdemo.adminservice.service;
 import com.google.common.base.Strings;
 import org.ckr.msdemo.adminservice.annotation.ReadOnlyTransaction;
 import org.ckr.msdemo.adminservice.annotation.ReadWriteTransaction;
-import org.ckr.msdemo.adminservice.entity.Role;
+import org.ckr.msdemo.adminservice.entity.UserRole;
 import org.ckr.msdemo.adminservice.entity.User;
 import org.ckr.msdemo.adminservice.repository.UserRepository;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
@@ -69,7 +69,7 @@ public class UserService {
 
         List<UserServiceForm.RoleServiceForm> roleList = new ArrayList<>();
 
-        for (Role role : user.getRoles()) {
+        for (UserRole role : user.getRoles()) {
 
             UserDetailView.RoleDetailView roleView = new UserDetailView.RoleDetailView();
 

@@ -6,6 +6,6 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <include file="org/ckr/msdemo/adminservice/entity/db.changelog.USER.xml"/>
     <include file="org/ckr/msdemo/adminservice/entity/db.changelog.USER_ROLE.xml"/>
-    <include file="org/ckr/msdemo/adminservice/entity/db.changelog.USER_USER_ROLE_MAP.xml"/>
-
+    <include file="org/ckr/msdemo/adminservice/entity/db.changelog.USER_TO_USER_ROLE_MAP.xml"/>
+    <include file="org/ckr/msdemo/adminservice/entity/db.changelog.USER_GROUP.xml"/>
 </databaseChangeLog>

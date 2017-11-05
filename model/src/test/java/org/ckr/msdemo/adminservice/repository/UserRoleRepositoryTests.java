@@ -23,38 +23,13 @@ import java.util.List;
 public class UserRoleRepositoryTests {
 
     @Autowired
-    private UserRoleRepository userRoleRepository;
+    private UserRepository userRoleRepository;
 
     @Autowired
     private TestEntityManager testEntityManager;
 
     @Test
-    public void testFindUserRoleCode() {
-        final PageRequest page = new PageRequest(
-            0, 3, new Sort(
-            new Sort.Order(Sort.Direction.DESC, "user_Name"))
-        );
-        List<User> users = this.userRoleRepository.findUsersByRoleCode("GROUP_ADMIN", page);
-        assertThat(users.size()).isEqualTo(3);
-        for (User user : users) {
-            System.out.println("----**-----" + user.getUserName());
-            assertThat(user.getUserName()).startsWith("ABC");
-        }
-    }
+    public void testXXX() {
 
-    @Test
-    public void testFindUserRoleCode2() {
-        final PageRequest page = new PageRequest(
-            1, 1, new Sort(
-            new Sort.Order(Sort.Direction.DESC, "user_Name"))
-        );
-        Page<User> users = this.userRoleRepository.findUsersByRoleCode2("GROUP_ADMIN", page);
-        assertThat(users.getNumberOfElements()).isEqualTo(1);
-        assertThat(users.getTotalPages()).isEqualTo(3);
-        assertThat(users.getTotalElements()).isEqualTo(3);
-        for (User user : users) {
-            System.out.println("----**-----" + user.getUserName());
-            assertThat(user.getUserName()).startsWith("ABC1");
-        }
     }
 }

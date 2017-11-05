@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="liquibase-docs" id="createTable-org.ckr.msdemo.adminservice.entity.USER_TO_USER_ROLE_MAP">
+
+        <createTable tableName="USER_TO_USER_ROLE_MAP">
+            <column name="USER_NAME" type="java.sql.Types.VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_CODE" type="java.sql.Types.VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_AT" type="java.sql.Types.TIMESTAMP"/>
+            <column name="CREATED_BY" type="java.sql.Types.VARCHAR(200)"/>
+            <column name="CREATED_BY_DESC" type="java.sql.Types.VARCHAR(200)"/>
+            <column name="UPDATED_AT" type="java.sql.Types.TIMESTAMP"/>
+            <column name="UPDATED_BY" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="UPDATED_BY_DESC" type="java.sql.Types.VARCHAR(100)"/>
+            <column name="VERSION_NO" type="java.sql.Types.BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase-docs" id="createTablePk-org.ckr.msdemo.adminservice.entity.USER_TO_USER_ROLE_MAP">
+
+        <addPrimaryKey constraintName="PK_USER_TO_USER_ROLE_MAP" columnNames="USER_NAME,ROLE_CODE" tableName="USER_TO_USER_ROLE_MAP" />
+    </changeSet>
+    <changeSet author="liquibase-docs" id="createTableIndex-org.ckr.msdemo.adminservice.entity.USER_TO_USER_ROLE_MAP">
+        <createIndex indexName="USER_TO_USER_ROLE_INDEX_1" tableName="USER_TO_USER_ROLE_MAP" unique="false">
+            <column name="USER_NAME"/>
+        </createIndex>
+        <createIndex indexName="USER_TO_USER_ROLE_INDEX_2" tableName="USER_TO_USER_ROLE_MAP" unique="false">
+            <column name="ROLE_CODE"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
