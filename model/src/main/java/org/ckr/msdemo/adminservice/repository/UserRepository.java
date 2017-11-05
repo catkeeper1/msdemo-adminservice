@@ -66,9 +66,9 @@ public interface UserRepository extends JpaRepository<User, String> {
      * @return list of users
      */
     @Query(nativeQuery = true,
-            value = "select u.* from User u, USER_USER_ROLE_MAP ur where ur.ROLE_CODE = ?1 and ur.USER_NAME = u.USER_NAME "
+            value = "select u.* from User u, USER_TO_USER_ROLE_MAP ur where ur.ROLE_CODE = ?1 and ur.USER_NAME = u.USER_NAME "
                     + "/* #pageable  */",
-            countQuery = "select count(1) from User u, USER_USER_ROLE_MAP ur where ur.ROLE_CODE = ?1 and ur.USER_NAME = u.USER_NAME")
+            countQuery = "select count(1) from User u, USER_TO_USER_ROLE_MAP ur where ur.ROLE_CODE = ?1 and ur.USER_NAME = u.USER_NAME")
     List<User> findUsersByRoleCode(String roleCode, Pageable pageable);
 
     /**
@@ -79,9 +79,9 @@ public interface UserRepository extends JpaRepository<User, String> {
      * @return page of users
      */
     @Query(nativeQuery = true,
-            value = "select u.* from User u, USER_USER_ROLE_MAP ur where ur.ROLE_CODE = ?1 and ur.USER_NAME = u.USER_NAME "
+            value = "select u.* from User u, USER_TO_USER_ROLE_MAP ur where ur.ROLE_CODE = ?1 and ur.USER_NAME = u.USER_NAME "
                     + "/* #pageable  */",
-            countQuery = "select count(1) from User u, USER_USER_ROLE_MAP ur where ur.ROLE_CODE = ?1 and ur.USER_NAME = u.USER_NAME")
+            countQuery = "select count(1) from User u, USER_TO_USER_ROLE_MAP ur where ur.ROLE_CODE = ?1 and ur.USER_NAME = u.USER_NAME")
     Page<User> findUsersByRoleCode2(String roleCode, Pageable pageable);
 
 }

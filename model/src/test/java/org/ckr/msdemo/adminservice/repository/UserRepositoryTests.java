@@ -111,4 +111,14 @@ public class UserRepositoryTests {
         }
     }
 
+    @Test
+    public void testFindUsersByRoleCode() {
+        final PageRequest page = new PageRequest(
+                1, 1, new Sort(
+                new Sort.Order(Sort.Direction.DESC, "USER_NAME"))
+        );
+        List<User> users = this.userRepository.findUsersByRoleCode("SECURITY_ADMIN", page);
+        assertThat(users.size()).isEqualTo(1);
+    }
+
 }
