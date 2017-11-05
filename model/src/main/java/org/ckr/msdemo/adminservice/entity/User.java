@@ -92,7 +92,7 @@ public class User extends BaseEntity {
     }
 
     @ManyToMany()
-    @JoinTable(name = "USER_TO_USER_ROLE_MAP",
+    @JoinTable(name = "USER_USER_ROLE_MAP",
         joinColumns = {@JoinColumn(name = "USER_NAME", updatable = false, insertable = false)},
         inverseJoinColumns = {@JoinColumn(name = "ROLE_CODE", updatable = false, insertable = false)})
     public List<UserRole> getRoles() {
@@ -127,7 +127,7 @@ public class User extends BaseEntity {
         return MoreObjects.toStringHelper(this)
                 .add("userName", userName)
                 .add("userDescription", userDescription)
-                .add("password", password)
+                .add("password", "MASKED")
                 .add("locked", locked)
                 .add("groupCode", groupCode)
                 .toString();
