@@ -5,11 +5,15 @@ import com.google.gson.GsonBuilder;
 import org.ckr.msdemo.adminservice.apitest.BeanContainer;
 import org.ckr.msdemo.adminservice.client.UserClient;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserService {
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+
     UserClient userClient;
 
-    public UserService(){
+    public UserService() {
         this.userClient = (UserClient) BeanContainer.getBean(UserClient.class);
     }
 
@@ -17,12 +21,14 @@ public class UserService {
 
         try {
             UserDetailView userDetailView = this.userClient.getUser(userName);
-            Gson gson = new GsonBuilder().create();
-            System.out.println("*info* " + gson.toJson(userDetailView));
-
         } catch (Exception exception) {
             exception.printStackTrace();
         }
 
+    }
+
+    public static void main (String args[]){
+        UserService userService = new UserService();
+        userService.getUser("ABC");
     }
 }

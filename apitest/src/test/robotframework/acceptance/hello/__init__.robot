@@ -14,6 +14,8 @@ ${HOST}           localhost
 
 *** Keywords ***
 Do Something1
+    Set Log Level   DEBUG
+    Log     TRACE HELLO WORLD     TRACE
     Log     ${MESSAGE1}  WARN
 Do Something2
     Log     ${MESSAGE2}  WARN
