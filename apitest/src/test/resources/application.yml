@@ -1,9 +1,14 @@
 
-admin-service:
+localhost:
   ribbon:
     eureka:
       enabled: false
     listOfServers: localhost:8082
+
+ribbon:
+  eureka:
+    enabled: false
+  listOfServers: localhost:8082
 
 
 

@@ -66,11 +66,16 @@
                 <artifactId>robotframework-maven-plugin</artifactId>
                 <version>1.4.7</version>
                 <configuration>
+                    <logLevel>DEBUG</logLevel>
                     <libdoc></libdoc>
                     <testdoc></testdoc>
+                    <extraPathDirectories>
+                        <extraPathDirectory>target/test-classes</extraPathDirectory>
+                        <extraPathDirectory>target/classes</extraPathDirectory>
+                    </extraPathDirectories>
                     <nonCriticalTags>template</nonCriticalTags>
                     <suites>
-                        <suite>Acceptance.Hello.Hello-api</suite>
+                        <suite>Acceptance.Hello.Hello-http</suite>
                     </suites>
                 </configuration>
                 <executions>
