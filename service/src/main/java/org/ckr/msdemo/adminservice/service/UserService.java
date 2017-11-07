@@ -5,6 +5,8 @@ import org.ckr.msdemo.adminservice.annotation.ReadOnlyTransaction;
 import org.ckr.msdemo.adminservice.annotation.ReadWriteTransaction;
 import org.ckr.msdemo.adminservice.entity.UserRole;
 import org.ckr.msdemo.adminservice.entity.User;
+import org.ckr.msdemo.adminservice.entity.UserToUserRoleMap;
+import org.ckr.msdemo.adminservice.repository.RoleRepository;
 import org.ckr.msdemo.adminservice.repository.UserRepository;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
@@ -17,9 +19,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +39,12 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
+    RoleService roleService;
 
     @Autowired
     JpaRestPaginationService jpaRestPaginationService;
@@ -99,15 +109,25 @@ public class UserService {
         LOG.debug("create new user.");
 
         User user = new User();
+        List<UserRole> roles = new ArrayList<UserRole>();
 
         validateUserInfo(userForm);
 
         user.setUserName(userForm.getUserName());
         user.setUserDescription(userForm.getUserDescription());
         user.setLocked(Boolean.FALSE);
-
         user.setPassword(encodePassword(userForm.getPassword()));
 
+        if (!CollectionUtils.isEmpty(userForm.getRoles())) {
+            for (UserServiceForm.RoleServiceForm roleForm : userForm.getRoles()) {
+                UserRole userRole = roleRepository.findByRoleCode(roleForm.getRoleCode());
+                if (userRole != null){
+                    roles.add(userRole);
+                }
+            }
+        }
+
+        user.setRoles(roles);
         this.userRepository.save(user);
     }
 
@@ -135,7 +155,14 @@ public class UserService {
             this.userRepository.findByUserName(userForm.getUserName()) != null) {
             applicationException.addMessage("security.maintain_user.duplicated_user");
         }
-
+        if (!CollectionUtils.isEmpty(userForm.getRoles())) {
+            for (UserServiceForm.RoleServiceForm roleForm : userForm.getRoles()) {
+                UserRole userRole = roleRepository.findByRoleCode(roleForm.getRoleCode());
+                if (userRole != null){
+                    applicationException.addMessage("security.maintain_role.not_existing_role", new Object[] {roleForm.getRoleCode()});
+                }
+            }
+        }
         applicationException.throwThisIfValid();
     }
 
