@@ -1,5 +1,6 @@
 package org.ckr.msdemo.adminservice.valueobject;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class UserServiceForm {

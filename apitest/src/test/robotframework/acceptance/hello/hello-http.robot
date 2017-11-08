@@ -23,3 +23,8 @@ ${HOST}         http://localhost:8082/admin_service/
 
 User Service
     Get User    ABC
+    Create User     haiyan  haiyan lu   haiyangpassword     true
+
+    Update Role To User     haiyan  SECURITY_ADMIN  USER_ADMIN
+    Get User    haiyan
+    Delete User     haiyan

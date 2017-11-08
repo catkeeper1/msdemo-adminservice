@@ -2,6 +2,7 @@ package org.ckr.msdemo.adminservice.controller;
 
 import org.ckr.msdemo.adminservice.constant.FunctionPointConstant;
 import org.ckr.msdemo.adminservice.entity.User;
+import org.ckr.msdemo.adminservice.entity.UserRole;
 import org.ckr.msdemo.adminservice.service.UserService;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
@@ -67,6 +68,19 @@ public class UserController {
     }
 
     /**
+     * Update user role with roles specified.
+     *
+     * @param userName user name
+     * @param roles roles of the user
+     * @return
+     */
+    @RequestMapping(value = "/user/{userName}", method = RequestMethod.POST)
+    public Boolean updateUserRole(@PathVariable("userName") String userName, @RequestBody List<UserServiceForm.RoleServiceForm> roles){
+        this.userService.updateUserRole(userName, roles);
+        return Boolean.TRUE;
+    }
+
+    /**
      * Query all users info.
      *
      * @return return all users
@@ -103,6 +117,12 @@ public class UserController {
     @RequestMapping(value = "/user/queryUsersWithRoles", method = RequestMethod.GET)
     public List<UserWithRole> queryUserWithRoles(@RequestParam String userName, @RequestParam String userDesc) {
         return userService.queryUsersWithRoles(userName, userDesc);
+    }
+
+    @RequestMapping(value = "user/{userName}", method = RequestMethod.DELETE)
+    public Boolean deleteUser(@PathVariable(name = "userName") String userName){
+        userService.deleteUser(userName);
+        return true;
     }
 
 }

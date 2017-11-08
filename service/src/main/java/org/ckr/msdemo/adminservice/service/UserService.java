@@ -132,6 +132,50 @@ public class UserService {
     }
 
     /**
+     * Update the role of user
+     *
+     * @param userName
+     * @param roles
+     */
+    public void updateUserRole(String userName, List<UserServiceForm.RoleServiceForm> roles){
+        User user = userRepository.findByUserName(userName);
+        List<UserRole> updatedRoles = new ArrayList<UserRole>();
+        ApplicationException applicationException = new ApplicationException("exceptions for user role update");
+        if (user == null){
+            applicationException.addMessage("security.maintain_user.not_existing_user", new Object[]{userName});
+        }else{
+            validateRoleInfos(roles, applicationException);
+            applicationException.throwThisIfValid();
+            for (UserServiceForm.RoleServiceForm roleForm : roles) {
+                UserRole userRole = roleRepository.findByRoleCode(roleForm.getRoleCode());
+                if (userRole != null){
+                    updatedRoles.add(userRole);
+                }
+            }
+            user.setRoles(updatedRoles);
+            userRepository.save(user);
+        }
+    }
+
+    /**
+     * Retrieve all roles of a user
+     *
+     * @param userName user name
+     * @return
+     */
+    public List<UserRole> getUserRole(String userName){
+        User user = userRepository.findByUserName(userName);
+        ApplicationException applicationException = new ApplicationException("exceptions for getting user role");
+        if (user == null){
+            applicationException.addMessage("security.maintain_user.not_existing_user", new Object[]{userName});
+            applicationException.throwThisIfValid();
+        }else{
+            return user.getRoles();
+        }
+        return null;
+    }
+
+    /**
      * Validate user information according to UserServiceForm.
      * <li>user name is not empty
      * <li>user description is not empty
@@ -155,15 +199,24 @@ public class UserService {
             this.userRepository.findByUserName(userForm.getUserName()) != null) {
             applicationException.addMessage("security.maintain_user.duplicated_user");
         }
-        if (!CollectionUtils.isEmpty(userForm.getRoles())) {
-            for (UserServiceForm.RoleServiceForm roleForm : userForm.getRoles()) {
-                UserRole userRole = roleRepository.findByRoleCode(roleForm.getRoleCode());
-                if (userRole != null){
-                    applicationException.addMessage("security.maintain_role.not_existing_role", new Object[] {roleForm.getRoleCode()});
-                }
+        validateRoleInfos(userForm.getRoles(), applicationException);
+
+        applicationException.throwThisIfValid();
+    }
+
+    private void validateRoleInfos(List<UserServiceForm.RoleServiceForm> roleServiceForms, ApplicationException applicationException) {
+        if (!CollectionUtils.isEmpty(roleServiceForms)) {
+            for (UserServiceForm.RoleServiceForm roleForm : roleServiceForms) {
+                this.validateRoleInfo(roleForm, applicationException);
             }
         }
-        applicationException.throwThisIfValid();
+    }
+
+    private void validateRoleInfo(UserServiceForm.RoleServiceForm roleServiceForm, ApplicationException applicationException) {
+        UserRole userRole = roleRepository.findByRoleCode(roleServiceForm.getRoleCode());
+        if (userRole == null){
+            applicationException.addMessage("security.maintain_role.not_existing_role", new Object[] {roleServiceForm.getRoleCode()});
+        }
     }
 
     /**
@@ -284,4 +337,8 @@ public class UserService {
         return result;
     }
 
+    @ReadWriteTransaction
+    public void deleteUser(String userName) {
+        userRepository.delete(userName);
+    }
 }

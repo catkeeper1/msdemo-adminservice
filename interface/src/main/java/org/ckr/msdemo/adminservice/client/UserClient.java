@@ -28,4 +28,10 @@ public interface UserClient {
     @RequestMapping(value = "/user/createUser", method = RequestMethod.POST)
     Boolean createUser(@RequestBody UserServiceForm user);
 
+    @RequestMapping(value = "/user/{userName}", method = RequestMethod.POST)
+    Boolean updateUserRole(@PathVariable("userName") String userName, @RequestBody List<UserServiceForm.RoleServiceForm> roles);
+
+    @RequestMapping(value = "user/{userName}", method = RequestMethod.DELETE)
+    Boolean deleteUser(@PathVariable(name = "userName") String userName);
+
 }
