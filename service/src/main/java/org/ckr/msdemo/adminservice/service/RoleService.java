@@ -1,6 +1,6 @@
 package org.ckr.msdemo.adminservice.service;
 
-import org.ckr.msdemo.adminservice.repository.RoleRepository;
+import org.ckr.msdemo.adminservice.repository.UserRoleRepository;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.pagination.JpaRestPaginationService;
 import org.slf4j.Logger;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class RoleService {
     private static final Logger LOG = LoggerFactory.getLogger(RoleService.class);
     @Autowired
-    RoleRepository roleRepository;
+    UserRoleRepository userRoleRepository;
 
     @Autowired
     JpaRestPaginationService jpaRestPaginationService;

@@ -3,6 +3,7 @@ package org.ckr.msdemo.adminservice.service;
 import mockit.Injectable;
 import mockit.Tested;
 import org.ckr.msdemo.adminservice.repository.UserRepository;
+import org.ckr.msdemo.adminservice.repository.UserRoleRepository;
 import org.ckr.msdemo.pagination.JpaRestPaginationService;
 
 /**
@@ -14,6 +15,12 @@ public class UserServiceMockedTestsBase {
 
     @Injectable
     protected UserRepository userRepository;
+
+    @Injectable
+    protected UserRoleRepository userRoleRepository;
+
+    @Injectable
+    protected RoleService roleService;
 
     @Injectable
     protected JpaRestPaginationService jpaRestPaginationService;

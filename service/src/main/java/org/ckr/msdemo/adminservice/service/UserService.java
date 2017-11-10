@@ -5,8 +5,7 @@ import org.ckr.msdemo.adminservice.annotation.ReadOnlyTransaction;
 import org.ckr.msdemo.adminservice.annotation.ReadWriteTransaction;
 import org.ckr.msdemo.adminservice.entity.UserRole;
 import org.ckr.msdemo.adminservice.entity.User;
-import org.ckr.msdemo.adminservice.entity.UserToUserRoleMap;
-import org.ckr.msdemo.adminservice.repository.RoleRepository;
+import org.ckr.msdemo.adminservice.repository.UserRoleRepository;
 import org.ckr.msdemo.adminservice.repository.UserRepository;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
@@ -23,7 +22,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +39,7 @@ public class UserService {
     UserRepository userRepository;
 
     @Autowired
-    RoleRepository roleRepository;
+    UserRoleRepository userRoleRepository;
 
     @Autowired
     RoleService roleService;
@@ -120,7 +118,7 @@ public class UserService {
 
         if (!CollectionUtils.isEmpty(userForm.getRoles())) {
             for (UserServiceForm.RoleServiceForm roleForm : userForm.getRoles()) {
-                UserRole userRole = roleRepository.findByRoleCode(roleForm.getRoleCode());
+                UserRole userRole = userRoleRepository.findByRoleCode(roleForm.getRoleCode());
                 if (userRole != null){
                     roles.add(userRole);
                 }
@@ -147,7 +145,7 @@ public class UserService {
             validateRoleInfos(roles, applicationException);
             applicationException.throwThisIfValid();
             for (UserServiceForm.RoleServiceForm roleForm : roles) {
-                UserRole userRole = roleRepository.findByRoleCode(roleForm.getRoleCode());
+                UserRole userRole = userRoleRepository.findByRoleCode(roleForm.getRoleCode());
                 if (userRole != null){
                     updatedRoles.add(userRole);
                 }
@@ -213,7 +211,7 @@ public class UserService {
     }
 
     private void validateRoleInfo(UserServiceForm.RoleServiceForm roleServiceForm, ApplicationException applicationException) {
-        UserRole userRole = roleRepository.findByRoleCode(roleServiceForm.getRoleCode());
+        UserRole userRole = userRoleRepository.findByRoleCode(roleServiceForm.getRoleCode());
         if (userRole == null){
             applicationException.addMessage("security.maintain_role.not_existing_role", new Object[] {roleServiceForm.getRoleCode()});
         }
