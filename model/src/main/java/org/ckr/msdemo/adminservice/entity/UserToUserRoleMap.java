@@ -3,13 +3,11 @@ package org.ckr.msdemo.adminservice.entity;
 import org.ckr.msdemo.entity.BaseEntity;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,7 +19,7 @@ import javax.persistence.Table;
 @Entity()
 @Table(name = "USER_TO_USER_ROLE_MAP",
         indexes = {@Index(name = "USER_TO_USER_ROLE_INDEX_1", columnList = "USER_NAME ASC", unique = false),
-                   @Index(name = "USER_TO_USER_ROLE_INDEX_2", columnList = "ROLE_CODE", unique = false)})
+                @Index(name = "USER_TO_USER_ROLE_INDEX_2", columnList = "ROLE_CODE", unique = false)})
 public class UserToUserRoleMap extends BaseEntity {
 
     private UserToUserRoleMapKey primaryKey;
@@ -44,7 +42,6 @@ public class UserToUserRoleMap extends BaseEntity {
     public User getUser() {
         return user;
     }
-
 
 
     @ManyToOne(optional = false)
@@ -89,12 +86,18 @@ public class UserToUserRoleMap extends BaseEntity {
         }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            UserToUserRoleMapKey that = (UserToUserRoleMapKey) o;
-            return Objects.equals(userName, that.userName) &&
-                    Objects.equals(roleCode, that.roleCode);
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+
+            UserToUserRoleMapKey that = (UserToUserRoleMapKey) obj;
+            return Objects.equals(userName, that.userName)
+                   && Objects.equals(roleCode, that.roleCode);
         }
 
         @Override
