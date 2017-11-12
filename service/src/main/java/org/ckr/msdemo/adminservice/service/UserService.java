@@ -361,8 +361,47 @@ public class UserService {
 
 
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(userRepository);
+    public boolean complexMethod(int a, int b, int c, int d, int e) {
+        if (a > 0) {
+            return false;
+        }
+
+        if(b > 0) {
+            return false;
+        }
+
+        if(c > 0) {
+            return false;
+        }
+
+        if(d > 0) {
+            return false;
+        }
+
+        if(e > 0) {
+            return false;
+        }
+
+        if(a == 0) {
+            return false;
+        }
+
+        if(b == 0) {
+            return false;
+        }
+
+        if(c == 0) {
+            return false;
+        }
+
+        if(d == 0) {
+            return false;
+        }
+
+        if(e == 0) {
+            return false;
+        }
+
+        return true;
     }
 }
