@@ -13,7 +13,7 @@
     <properties>
 
         <!-- skip report generation for findbugs, checkstyle... only generate project info report -->
-        <msdemo.skipReportGen>false</msdemo.skipReportGen>
+        <msdemo.skipReportGen>true</msdemo.skipReportGen>
         <!--<start-class>org.ckr.msdemo.adminservice.AdminServiceApplication</start-class>-->
     </properties>
 

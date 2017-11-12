@@ -3,6 +3,7 @@ package org.ckr.msdemo.adminservice.entity;
 import com.google.common.base.MoreObjects;
 import org.ckr.msdemo.entity.BaseEntity;
 
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -46,4 +47,6 @@ public class FunctionPoint extends BaseEntity {
                 .add("functionPointDescription", functionPointDescription)
                 .toString();
     }
+
+
 }

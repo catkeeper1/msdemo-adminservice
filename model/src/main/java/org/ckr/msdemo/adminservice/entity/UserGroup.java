@@ -1,8 +1,8 @@
 package org.ckr.msdemo.adminservice.entity;
 
 import com.google.common.base.MoreObjects;
+import org.ckr.msdemo.entity.BaseEntity;
 
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,13 +11,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
+
 
 /**
  * Created by Administrator on 2017/11/4.
  */
 @Entity()
 @Table(name = "USER_GROUP")
-public class UserGroup {
+public class UserGroup extends BaseEntity {
 
     private String groupCode;
 

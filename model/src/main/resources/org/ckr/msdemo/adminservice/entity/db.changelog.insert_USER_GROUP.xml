@@ -9,6 +9,9 @@
         <loadUpdateData file="org/ckr/msdemo/adminservice/entity/USER_GROUP.csv"
                         primaryKey="GROUP_CODE"
                         tableName="USER_GROUP">
+            <column name="CREATED_AT" type="DATE"/>
+            <column name="UPDATED_AT" type="DATE"/>
+            <column name="VERSION_NO" type="NUMERIC"/>
         </loadUpdateData>
     </changeSet>
 </databaseChangeLog>

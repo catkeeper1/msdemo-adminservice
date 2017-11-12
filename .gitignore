@@ -4,6 +4,7 @@
 
 *.iml
 
+src/main/java
 target
 interface/target
 model/target

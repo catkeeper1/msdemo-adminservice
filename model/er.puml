@@ -4,9 +4,10 @@ hide circle
 hide empty members
 
 entity Entity {
-   * identifying_attribute : String
+   *identifying_attribute : String
    --
-   * mandatory_attribute **bold**
+   1.mandatory_attribute **bold**
+   .mandatory_attribute2 **bold**
    **optional_attribute**
 }
 

@@ -26,7 +26,7 @@
         <module>model</module>
         <module>interface</module>
         <module>service</module>
-        <module>apitest</module>
+        <!--<module>apitest</module>-->
 
     </modules>
 
@@ -45,6 +45,60 @@
 
 
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>copy-classes-for-findbug-reports</id>
+                        <phase>pre-site</phase>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <skip>false</skip>
+                            <target>
+
+                                <!-- the findbugs plugin only accept one class folder. If we need to generate
+                                one report for all module, need to copy all classes for all modules into one folder
+                                first -->
+                                <copy todir="${project.basedir}/target/allClasses"
+                                      preservelastmodified="true" verbose="true">
+                                    <fileset dir="${project.basedir}/interface/target/classes">
+                                        <include name="/**/*.class"/>
+                                    </fileset>
+                                    <fileset dir="${project.basedir}/model/target/classes">
+                                        <include name="/**/*.class"/>
+                                    </fileset>
+                                    <fileset dir="${project.basedir}/service/target/classes">
+                                        <include name="/**/*.class"/>
+                                    </fileset>
+                                </copy>
+
+                                <!-- if these source are not copied, the source xref link in findbugs report
+                                is wrong. This is only an hacking approach. May need to find better approach later. -->
+                                <copy todir="${project.basedir}/src/main/java"
+                                      preservelastmodified="true" verbose="true">
+                                    <fileset dir="${project.basedir}/interface/src/main/java">
+                                        <include name="/**/*.java"/>
+                                    </fileset>
+                                    <fileset dir="${project.basedir}/model/src/main/java">
+                                        <include name="/**/*.java"/>
+                                    </fileset>
+                                    <fileset dir="${project.basedir}/service/src/main/java">
+                                        <include name="/**/*.java"/>
+                                    </fileset>
+                                </copy>
+
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
@@ -59,7 +113,13 @@
                         <artifactId>pagination</artifactId>
                         <version>${project.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.ckr.msdemo</groupId>
+                        <artifactId>authentication-server-client</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
                 </dependencies>
+
             </plugin>
 
             <plugin>

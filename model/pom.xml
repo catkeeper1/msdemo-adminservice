@@ -72,6 +72,71 @@
 
         </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+
+                    <execution>
+                        <id>gen-er-diagram</id>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <doclet>org.ckr.msdemo.doclet.ErDiagramDoclet</doclet>
+
+                            <docletArtifacts>
+                                <artifact>
+                                    <artifactId>build-tool</artifactId>
+                                    <groupId>org.ckr.msdemo</groupId>
+                                    <version>${project.version}</version>
+                                </artifact>
+                            </docletArtifacts>
+                            <useStandardDocletOptions>false</useStandardDocletOptions>
+                            <!--<show>protected</show>-->
+                            <docencoding>UTF-8</docencoding>
+                            <encoding>UTF-8</encoding>
+                            <charset>UTF-8</charset>
+                            <!--<includeDependencySources>true</includeDependencySources>-->
+                            <!--<dependencySourceIncludes>-->
+                            <!--<dependencySourceInclude>org.ckr.msdemo:exceptions</dependencySourceInclude>-->
+                            <!--</dependencySourceIncludes>-->
+                            <additionalJOptions>
+                                <additionalJOption>
+                                    -J-Doutput=${project.basedir}/../target/site/er/er.puml
+                                </additionalJOption>
+                            </additionalJOptions>
+                        </configuration>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.jeluard</groupId>
+                <artifactId>plantuml-maven-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>gen-er-svg</id>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFiles>
+                                <directory>${project.basedir}/../</directory>
+                                <includes>
+                                    <include>target/site/er/er.puml</include>
+                                </includes>
+                            </sourceFiles>
+                            <outputInSourceDirectory>true</outputInSourceDirectory>
+                            <format>svg</format>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
         </plugins>
     </build>

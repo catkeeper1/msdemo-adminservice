@@ -8,6 +8,7 @@
         <menu ref="reports"/>
         <menu>
             <item name="Code Coverage Report" href="../coverage-report/index.html"/>
+            <item name="ER diagram" href="./er/er.svg"/>
         </menu>
     </body>
 </project>

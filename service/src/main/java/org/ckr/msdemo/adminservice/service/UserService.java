@@ -21,10 +21,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -137,11 +142,14 @@ public class UserService {
      */
     public void updateUserRole(String userName, List<UserServiceForm.RoleServiceForm> roles){
         User user = userRepository.findByUserName(userName);
+
+        List<String> auditLogList = new ArrayList<>();
+
         List<UserRole> updatedRoles = new ArrayList<UserRole>();
         ApplicationException applicationException = new ApplicationException("exceptions for user role update");
-        if (user == null){
+        if (user == null) {
             applicationException.addMessage("security.maintain_user.not_existing_user", new Object[]{userName});
-        }else{
+        } else {
             validateRoleInfos(roles, applicationException);
             applicationException.throwThisIfValid();
             for (UserServiceForm.RoleServiceForm roleForm : roles) {
@@ -338,5 +346,23 @@ public class UserService {
     @ReadWriteTransaction
     public void deleteUser(String userName) {
         userRepository.delete(userName);
+
+    }
+
+    public void readFile(String fileName) {
+
+        File file = new File(fileName);
+        try {
+            FileReader reader = new FileReader(file);
+        } catch (FileNotFoundException e) {
+
+        }
+    }
+
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userRepository);
     }
 }
