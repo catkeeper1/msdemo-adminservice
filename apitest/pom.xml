@@ -54,7 +54,10 @@
             <version>0.0.7</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+        </dependency>
 
     </dependencies>
     <build>
@@ -74,9 +77,8 @@
                         <extraPathDirectory>target/classes</extraPathDirectory>
                     </extraPathDirectories>
                     <nonCriticalTags>template</nonCriticalTags>
-                    <suites>
-                        <suite>Acceptance.Hello.Hello-http</suite>
-                    </suites>
+
+                    <testCasesDirectory>${project.basedir}/src/main/robotframework/acceptance/</testCasesDirectory>
                 </configuration>
                 <executions>
                     <execution>
