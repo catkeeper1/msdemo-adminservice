@@ -65,13 +65,13 @@
                                 <copy todir="${project.basedir}/target/allClasses"
                                       preservelastmodified="true" verbose="true">
                                     <fileset dir="${project.basedir}/interface/target/classes">
-                                        <include name="/**/*.class"/>
+                                        <include name="**/*.class"/>
                                     </fileset>
                                     <fileset dir="${project.basedir}/model/target/classes">
-                                        <include name="/**/*.class"/>
+                                        <include name="**/*.class"/>
                                     </fileset>
                                     <fileset dir="${project.basedir}/service/target/classes">
-                                        <include name="/**/*.class"/>
+                                        <include name="**/*.class"/>
                                     </fileset>
                                 </copy>
 
@@ -80,13 +80,13 @@
                                 <copy todir="${project.basedir}/src/main/java"
                                       preservelastmodified="true" verbose="true">
                                     <fileset dir="${project.basedir}/interface/src/main/java">
-                                        <include name="/**/*.java"/>
+                                        <include name="**/*.java"/>
                                     </fileset>
                                     <fileset dir="${project.basedir}/model/src/main/java">
-                                        <include name="/**/*.java"/>
+                                        <include name="**/*.java"/>
                                     </fileset>
                                     <fileset dir="${project.basedir}/service/src/main/java">
-                                        <include name="/**/*.java"/>
+                                        <include name="**/*.java"/>
                                     </fileset>
                                 </copy>
 
