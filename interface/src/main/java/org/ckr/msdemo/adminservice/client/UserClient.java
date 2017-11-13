@@ -4,6 +4,7 @@ import static org.ckr.msdemo.adminservice.client.ServiceNameConstant.ADMIN_SERVI
 import static org.ckr.msdemo.adminservice.client.ServiceNameConstant.ADMIN_SERVICE_CONTEXT;
 
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
+import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,16 +21,16 @@ import java.util.List;
 public interface UserClient {
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
-    UserDetailView getUser(@PathVariable("userId") String userName);
+    UserDetailView queryUserById(@PathVariable("userId") String userName);
 
     @RequestMapping(value = "/user/queryUser", method = RequestMethod.GET)
-    List<UserDetailView> getUsers();
+    List<UserQueryView> queryAllUsers();
 
     @RequestMapping(value = "/user/createUser", method = RequestMethod.POST)
     Boolean createUser(@RequestBody UserServiceForm user);
 
     @RequestMapping(value = "/user/{userName}", method = RequestMethod.POST)
-    Boolean updateUserRole(@PathVariable("userName") String userName, @RequestBody List<UserServiceForm.RoleServiceForm> roles);
+    Boolean updateUserRole(@PathVariable("userName") String userName, @RequestBody List<String> roles);
 
     @RequestMapping(value = "user/{userName}", method = RequestMethod.DELETE)
     Boolean deleteUser(@PathVariable(name = "userName") String userName);

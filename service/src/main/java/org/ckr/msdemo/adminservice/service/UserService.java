@@ -1,12 +1,14 @@
 package org.ckr.msdemo.adminservice.service;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import org.ckr.msdemo.adminservice.annotation.ReadOnlyTransaction;
 import org.ckr.msdemo.adminservice.annotation.ReadWriteTransaction;
-import org.ckr.msdemo.adminservice.entity.UserRole;
 import org.ckr.msdemo.adminservice.entity.User;
-import org.ckr.msdemo.adminservice.repository.UserRoleRepository;
+import org.ckr.msdemo.adminservice.entity.UserRole;
 import org.ckr.msdemo.adminservice.repository.UserRepository;
+import org.ckr.msdemo.adminservice.repository.UserRoleRepository;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
@@ -24,12 +26,10 @@ import org.springframework.util.StringUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -63,7 +63,7 @@ public class UserService {
      * {@link ApplicationException} will be thrown if user is not exist.
      */
     @ReadOnlyTransaction
-    public UserDetailView getUser(String userName) {
+    public UserDetailView queryUser(String userName) {
 
         UserDetailView result = new UserDetailView();
 
@@ -135,12 +135,12 @@ public class UserService {
     }
 
     /**
-     * Update the role of user
+     * Update the roles of a user.
      *
-     * @param userName
-     * @param roles
+     * @param userName    The user ID of the user that need to be changed.
+     * @param roleCodes   The code of rules that should be assigned to the user.
      */
-    public void updateUserRole(String userName, List<UserServiceForm.RoleServiceForm> roles){
+    public void updateUserRole(String userName, List<String> roleCodes){
         User user = userRepository.findByUserName(userName);
 
         List<String> auditLogList = new ArrayList<>();
@@ -150,10 +150,10 @@ public class UserService {
         if (user == null) {
             applicationException.addMessage("security.maintain_user.not_existing_user", new Object[]{userName});
         } else {
-            validateRoleInfos(roles, applicationException);
+            validateRoleInfos(roleCodes, applicationException);
             applicationException.throwThisIfValid();
-            for (UserServiceForm.RoleServiceForm roleForm : roles) {
-                UserRole userRole = userRoleRepository.findByRoleCode(roleForm.getRoleCode());
+            for (String roleCode : roleCodes) {
+                UserRole userRole = userRoleRepository.findByRoleCode(roleCode);
                 if (userRole != null){
                     updatedRoles.add(userRole);
                 }
@@ -205,23 +205,39 @@ public class UserService {
             this.userRepository.findByUserName(userForm.getUserName()) != null) {
             applicationException.addMessage("security.maintain_user.duplicated_user");
         }
-        validateRoleInfos(userForm.getRoles(), applicationException);
+        validateRoleForms(userForm.getRoles(), applicationException);
 
         applicationException.throwThisIfValid();
     }
 
-    private void validateRoleInfos(List<UserServiceForm.RoleServiceForm> roleServiceForms, ApplicationException applicationException) {
-        if (!CollectionUtils.isEmpty(roleServiceForms)) {
-            for (UserServiceForm.RoleServiceForm roleForm : roleServiceForms) {
-                this.validateRoleInfo(roleForm, applicationException);
+
+    private void validateRoleForms(List<UserServiceForm.RoleServiceForm> roleForms,
+                                   ApplicationException applicationException) {
+
+        List<UserServiceForm.RoleServiceForm> safeRoleForms = MoreObjects.firstNonNull(roleForms,
+                ImmutableList.<UserServiceForm.RoleServiceForm>of());
+
+
+        for (UserServiceForm.RoleServiceForm roleForm : safeRoleForms) {
+            this.validateRoleInfo(roleForm.getRoleCode(), applicationException);
+        }
+
+    }
+
+    private void validateRoleInfos(List<String> roleCodes,
+                                   ApplicationException applicationException) {
+        if (!CollectionUtils.isEmpty(roleCodes)) {
+            for (String roleCode : roleCodes) {
+                this.validateRoleInfo(roleCode, applicationException);
             }
         }
     }
 
-    private void validateRoleInfo(UserServiceForm.RoleServiceForm roleServiceForm, ApplicationException applicationException) {
-        UserRole userRole = userRoleRepository.findByRoleCode(roleServiceForm.getRoleCode());
+    private void validateRoleInfo(String roleCode, ApplicationException applicationException) {
+        UserRole userRole = userRoleRepository.findByRoleCode(roleCode);
         if (userRole == null){
-            applicationException.addMessage("security.maintain_role.not_existing_role", new Object[] {roleServiceForm.getRoleCode()});
+            applicationException.addMessage("security.maintain_role.not_existing_role",
+                                            new Object[] {roleCode});
         }
     }
 
@@ -255,7 +271,7 @@ public class UserService {
      * @return List of UserQueryView
      */
     @ReadOnlyTransaction
-    public List<UserQueryView> queryUsers2(String userName, String userDesc) {
+    public List<UserQueryView> queryUsers(String userName, String userDesc) {
         Map<String, Object> params = new HashMap<String, Object>();
 
         if (!Strings.isNullOrEmpty(userName)) {

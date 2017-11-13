@@ -2,7 +2,6 @@ package org.ckr.msdemo.adminservice.controller;
 
 import org.ckr.msdemo.adminservice.constant.FunctionPointConstant;
 import org.ckr.msdemo.adminservice.entity.User;
-import org.ckr.msdemo.adminservice.entity.UserRole;
 import org.ckr.msdemo.adminservice.service.UserService;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
@@ -36,22 +35,22 @@ public class UserController {
      *
      * @param userName user name to get
      * @return UserDetailView
-     * @see UserService#getUser(String)
+     * @see UserService#queryUser(String)
      */
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
-    public UserDetailView getUser(@PathVariable("userId") String userName) {
-        return this.userService.getUser(userName);
+    public UserDetailView queryUserById(@PathVariable("userId") String userName) {
+        return this.userService.queryUser(userName);
     }
 
     /**
      * Query all users info.
      *
      * @return return all users
-     * @see UserService#queryUsers2(String, String)
+     * @see UserService#queryUsers(String, String)
      */
     @RequestMapping(value = "/user/queryUser", method = RequestMethod.GET)
-    public List<UserQueryView> getUsers() {
-        return this.userService.queryUsers2(null, null);
+    public List<UserQueryView> queryAllUsers() {
+        return this.userService.queryUsers(null, null);
     }
 
     /**
@@ -75,22 +74,12 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/user/{userName}", method = RequestMethod.POST)
-    public Boolean updateUserRole(@PathVariable("userName") String userName, @RequestBody List<UserServiceForm.RoleServiceForm> roles){
+    public Boolean updateUserRole(@PathVariable("userName") String userName, @RequestBody List<String> roles){
         this.userService.updateUserRole(userName, roles);
         return Boolean.TRUE;
     }
 
-    /**
-     * Query all users info.
-     *
-     * @return return all users
-     * @see UserService#queryUsers2(String, String)
-     */
-    @RequestMapping(value = "/user/queryUsers", method = RequestMethod.GET)
-    @PreAuthorize("hasPermission(this, '"+FunctionPointConstant.QUERY_ALL_USERS+"')")
-    public List<User> queryUsers() {
-        return userService.queryUsers();
-    }
+
 
     /**
      * Query user by specify user name and user description.
@@ -98,12 +87,12 @@ public class UserController {
      * @param userName name of user
      * @param userDesc description of user
      * @return user info matched condition
-     * @see UserService#queryUsers2(String, String)
+     * @see UserService#queryUsers(String, String)
      */
-    @RequestMapping(value = "/user/queryUsers2", method = RequestMethod.GET)
-    public List<UserQueryView> queryUser2(@RequestParam("userName") String userName,
+    @RequestMapping(value = "/user/queryUsers", method = RequestMethod.GET)
+    public List<UserQueryView> queryUser(@RequestParam("userName") String userName,
                                           @RequestParam("userDesc") String userDesc) {
-        return userService.queryUsers2(userName, userDesc);
+        return userService.queryUsers(userName, userDesc);
     }
 
     /**

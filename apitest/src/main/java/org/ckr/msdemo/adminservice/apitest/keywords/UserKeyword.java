@@ -24,7 +24,7 @@ public class UserKeyword {
     public void queryUser(String userName) {
 
 
-        UserDetailView userDetailView = this.userClient.getUser(userName);
+        UserDetailView userDetailView = this.userClient.queryUserById(userName);
 
         assertThat(userDetailView.getUserName()).isEqualTo(userName);
 
@@ -43,16 +43,15 @@ public class UserKeyword {
 
         System.out.println("*INFO* " + "update user role . User name = " + userName + " role = " + roleCode);
 
-        List<UserServiceForm.RoleServiceForm> roleServiceForms = new ArrayList<UserServiceForm.RoleServiceForm>();
+        List<String> roleCodes = new ArrayList<String>();
 
-        UserServiceForm.RoleServiceForm roleServiceForm = new UserServiceForm.RoleServiceForm();
-        roleServiceForm.setRoleCode(roleCode);
-        roleServiceForms.add(roleServiceForm);
 
-        this.userClient.updateUserRole(userName, roleServiceForms);
+        roleCodes.add(roleCode);
+
+        this.userClient.updateUserRole(userName, roleCodes);
 
         System.out.println("*INFO* " + "retrieve user detail to verify whether role has been updated successfully");
-        UserDetailView userDetail = this.userClient.getUser(userName);
+        UserDetailView userDetail = this.userClient.queryUserById(userName);
 
         assertThat(userDetail).isNotNull();
 

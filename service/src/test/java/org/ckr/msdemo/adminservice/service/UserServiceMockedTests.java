@@ -5,6 +5,8 @@ import mockit.Expectations;
 import mockit.Verifications;
 import org.ckr.msdemo.adminservice.TestUtil;
 import org.ckr.msdemo.adminservice.entity.User;
+import org.ckr.msdemo.adminservice.entity.UserRole;
+import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.exception.ApplicationException;
 import org.junit.Test;
@@ -14,6 +16,7 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -22,7 +25,53 @@ import static org.assertj.core.api.Assertions.fail;
  */
 public class UserServiceMockedTests extends UserServiceMockedTestsBase{
 
+    @Test
+    public void testQueryUser_userNotExist() {
 
+        new Expectations() {{
+            userRepository.findByUserName("userA");
+            result = null;
+
+        }};
+
+        try {
+            this.userService.queryUser("userA");
+        } catch (ApplicationException ae) {
+            TestUtil.checkErrorMsg(ae,
+                                  "security.maintain_user.not_existing_user",
+                                   "The user userA is not exist.");
+            return;
+        }
+
+        fail("exception is expected.");
+
+    }
+
+    @Test
+    public void testQueryUser_successfully() {
+        User user = new User();
+        user.setUserName("userA");
+
+        UserRole role = new UserRole();
+        role.setRoleCode("roleA");
+
+        user.setRoles(newArrayList(role));
+
+        new Expectations() {{
+            userRepository.findByUserName("userA");
+            result = user;
+
+        }};
+
+
+        UserDetailView userView = this.userService.queryUser("userA");
+
+
+        assertThat(userView.getUserName()).isEqualTo("userA");
+
+        assertThat(userView.getRoles().get(0).getRoleCode()).isEqualTo("roleA");
+
+    }
 
     @Test
     public void testCreateUser_successfully() {
