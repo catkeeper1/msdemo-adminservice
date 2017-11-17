@@ -6,6 +6,7 @@ import mockit.Verifications;
 import org.ckr.msdemo.adminservice.TestUtil;
 import org.ckr.msdemo.adminservice.entity.User;
 import org.ckr.msdemo.adminservice.entity.UserRole;
+import org.ckr.msdemo.adminservice.entity.UserToUserRoleMap;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.exception.ApplicationException;
@@ -13,8 +14,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -83,9 +86,33 @@ public class UserServiceMockedTests extends UserServiceMockedTestsBase{
         form.setLocked(Boolean.TRUE);
         form.setPassword("password");
 
+        List<UserServiceForm.RoleServiceForm> roleForms = new ArrayList<>();
+
+        UserServiceForm.RoleServiceForm roleForm = new UserServiceForm.RoleServiceForm();
+        roleForm.setRoleCode("role_a");
+        roleForms.add(roleForm);
+
+        roleForm = new UserServiceForm.RoleServiceForm();
+        roleForm.setRoleCode("role_b");
+        roleForms.add(roleForm);
+
+        form.setRoles(roleForms);
+
         new Expectations() {{
             userRepository.findByUserName(anyString);
             result = null;
+
+            UserRole userRole = new UserRole();
+            userRole.setRoleCode("role_a");
+            userRoleRepository.findByRoleCode("role_a");
+            result = userRole;
+
+            userRole = new UserRole();
+            userRole.setRoleCode("role_b");
+            userRoleRepository.findByRoleCode("role_b");
+            result = userRole;
+
+
 
         }};
 
@@ -100,6 +127,17 @@ public class UserServiceMockedTests extends UserServiceMockedTestsBase{
             assertThat(user.getUserDescription()).isEqualTo(form.getUserDescription());
             assertThat(user.getLocked()).isEqualTo(Boolean.FALSE);
             assertThat(user.getPassword()).isNotNull();
+
+            UserToUserRoleMap userToUserRoleMap;
+            userToUserRoleMapRepository.save(userToUserRoleMap = withCapture());
+            times = form.getRoles().size();
+
+            assertThat(userToUserRoleMap.getPrimaryKey().getUserName()).isEqualTo(form.getUserName());
+
+            assertThat(userToUserRoleMap.getPrimaryKey().getRoleCode())
+                    .isIn("role_a", "role_b");
+
+
         }};
     }
 

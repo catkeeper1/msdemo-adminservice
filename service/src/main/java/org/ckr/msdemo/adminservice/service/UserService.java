@@ -7,8 +7,10 @@ import org.ckr.msdemo.adminservice.annotation.ReadOnlyTransaction;
 import org.ckr.msdemo.adminservice.annotation.ReadWriteTransaction;
 import org.ckr.msdemo.adminservice.entity.User;
 import org.ckr.msdemo.adminservice.entity.UserRole;
+import org.ckr.msdemo.adminservice.entity.UserToUserRoleMap;
 import org.ckr.msdemo.adminservice.repository.UserRepository;
 import org.ckr.msdemo.adminservice.repository.UserRoleRepository;
+import org.ckr.msdemo.adminservice.repository.UserToUserRoleMapRepository;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
@@ -47,7 +49,7 @@ public class UserService {
     UserRoleRepository userRoleRepository;
 
     @Autowired
-    RoleService roleService;
+    UserToUserRoleMapRepository userToUserRoleMapRepository;
 
     @Autowired
     JpaRestPaginationService jpaRestPaginationService;
@@ -112,7 +114,7 @@ public class UserService {
         LOG.debug("create new user.");
 
         User user = new User();
-        List<UserRole> roles = new ArrayList<UserRole>();
+
 
         validateUserInfo(userForm);
 
@@ -121,18 +123,23 @@ public class UserService {
         user.setLocked(Boolean.FALSE);
         user.setPassword(encodePassword(userForm.getPassword()));
 
-        if (!CollectionUtils.isEmpty(userForm.getRoles())) {
-            for (UserServiceForm.RoleServiceForm roleForm : userForm.getRoles()) {
-                UserRole userRole = userRoleRepository.findByRoleCode(roleForm.getRoleCode());
-                if (userRole != null){
-                    roles.add(userRole);
-                }
-            }
+
+        for (UserServiceForm.RoleServiceForm roleForm :
+                MoreObjects.firstNonNull(userForm.getRoles(), ImmutableList.<UserServiceForm.RoleServiceForm>of()) ) {
+            UserToUserRoleMap userToUserRoleMap = new UserToUserRoleMap();
+            UserToUserRoleMap.UserToUserRoleMapKey key = new UserToUserRoleMap.UserToUserRoleMapKey();
+            key.setUserName(userForm.getUserName());
+            key.setRoleCode(roleForm.getRoleCode());
+            userToUserRoleMap.setPrimaryKey(key);
+
+            this.userToUserRoleMapRepository.save(userToUserRoleMap);
         }
 
-        user.setRoles(roles);
+
         this.userRepository.save(user);
     }
+
+
 
     /**
      * Update the roles of a user.
@@ -140,7 +147,7 @@ public class UserService {
      * @param userName    The user ID of the user that need to be changed.
      * @param roleCodes   The code of rules that should be assigned to the user.
      */
-    public void updateUserRole(String userName, List<String> roleCodes){
+    public void updateUserRole(String userName, List<String> roleCodes) {
         User user = userRepository.findByUserName(userName);
 
         List<String> auditLogList = new ArrayList<>();
@@ -154,7 +161,7 @@ public class UserService {
             applicationException.throwThisIfValid();
             for (String roleCode : roleCodes) {
                 UserRole userRole = userRoleRepository.findByRoleCode(roleCode);
-                if (userRole != null){
+                if (userRole != null) {
                     updatedRoles.add(userRole);
                 }
             }
@@ -169,10 +176,10 @@ public class UserService {
      * @param userName user name
      * @return
      */
-    public List<UserRole> getUserRole(String userName){
+    public List<UserRole> getUserRole(String userName) {
         User user = userRepository.findByUserName(userName);
         ApplicationException applicationException = new ApplicationException("exceptions for getting user role");
-        if (user == null){
+        if (user == null) {
             applicationException.addMessage("security.maintain_user.not_existing_user", new Object[]{userName});
             applicationException.throwThisIfValid();
         }else{
@@ -235,9 +242,8 @@ public class UserService {
 
     private void validateRoleInfo(String roleCode, ApplicationException applicationException) {
         UserRole userRole = userRoleRepository.findByRoleCode(roleCode);
-        if (userRole == null){
-            applicationException.addMessage("security.maintain_role.not_existing_role",
-                                            new Object[] {roleCode});
+        if (userRole == null) {
+            applicationException.addMessage("security.maintain_role.not_existing_role",roleCode);
         }
     }
 
@@ -382,39 +388,39 @@ public class UserService {
             return false;
         }
 
-        if(b > 0) {
+        if (b > 0) {
             return false;
         }
 
-        if(c > 0) {
+        if (c > 0) {
             return false;
         }
 
-        if(d > 0) {
+        if (d > 0) {
             return false;
         }
 
-        if(e > 0) {
+        if (e > 0) {
             return false;
         }
 
-        if(a == 0) {
+        if (a == 0) {
             return false;
         }
 
-        if(b == 0) {
+        if (b == 0) {
             return false;
         }
 
-        if(c == 0) {
+        if (c == 0) {
             return false;
         }
 
-        if(d == 0) {
+        if (d == 0) {
             return false;
         }
 
-        if(e == 0) {
+        if (e == 0) {
             return false;
         }
 

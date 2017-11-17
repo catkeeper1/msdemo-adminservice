@@ -21,6 +21,8 @@ import java.util.List;
 @Table(name = "USER_GROUP")
 public class UserGroup extends BaseEntity {
 
+    private static final long serialVersionUID = -5120097865032177878L;
+
     private String groupCode;
 
     private String groupDescription;

@@ -74,7 +74,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/user/{userName}", method = RequestMethod.POST)
-    public Boolean updateUserRole(@PathVariable("userName") String userName, @RequestBody List<String> roles){
+    public Boolean updateUserRole(@PathVariable("userName") String userName, @RequestBody List<String> roles) {
         this.userService.updateUserRole(userName, roles);
         return Boolean.TRUE;
     }
@@ -109,7 +109,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "user/{userName}", method = RequestMethod.DELETE)
-    public Boolean deleteUser(@PathVariable(name = "userName") String userName){
+    public Boolean deleteUser(@PathVariable(name = "userName") String userName) {
         userService.deleteUser(userName);
         return true;
     }

@@ -3,7 +3,6 @@ package org.ckr.msdemo.adminservice.entity;
 import com.google.common.base.MoreObjects;
 import org.ckr.msdemo.entity.BaseEntity;
 
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,6 +15,7 @@ import javax.persistence.Table;
 @Table(name = "FUNCTION_POINT")
 public class FunctionPoint extends BaseEntity {
 
+    private static final long serialVersionUID = -8148548168711916671L;
 
     private String functionPointCode;
 
