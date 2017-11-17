@@ -88,6 +88,9 @@
                                     <fileset dir="${project.basedir}/service/src/main/java">
                                         <include name="**/*.java"/>
                                     </fileset>
+                                    <filterchain>
+                                        <headfilter skip="9000000000"/>
+                                    </filterchain>
                                 </copy>
 
                             </target>
