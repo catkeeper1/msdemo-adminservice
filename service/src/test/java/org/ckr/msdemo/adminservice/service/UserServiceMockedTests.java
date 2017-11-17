@@ -163,6 +163,7 @@ public class UserServiceMockedTests extends UserServiceMockedTestsBase{
         try {
             this.userService.createUser(form);
         } catch (ApplicationException ae) {
+            ae.printStackTrace();
             TestUtil.checkErrorMsg(ae, messageCode, message);
             return;
         }
@@ -199,7 +200,7 @@ public class UserServiceMockedTests extends UserServiceMockedTestsBase{
                 "",
                 new User(),
                 "security.maintain_user.duplicated_user",
-                "The user name is duplicated with an existing one.");
+                "The user name userName is duplicated with an existing one.");
 
     }
 

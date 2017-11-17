@@ -210,7 +210,7 @@ public class UserService {
 
         if (!Strings.isNullOrEmpty(userForm.getUserName()) &&
             this.userRepository.findByUserName(userForm.getUserName()) != null) {
-            applicationException.addMessage("security.maintain_user.duplicated_user");
+            applicationException.addMessage("security.maintain_user.duplicated_user", userForm.getUserName());
         }
         validateRoleForms(userForm.getRoles(), applicationException);
 
