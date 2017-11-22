@@ -239,7 +239,7 @@ public class UserServiceMockedTests extends UserServiceMockedTestsBase{
                 { "userName" , ""               , null      ,     "security.maintain_user.user_desc_empty",
                  "User description cannot be empty."},
                 { "userName" , "userDesc"       , new User(),     "security.maintain_user.duplicated_user",
-                 "The user name is duplicated with an existing one."}
+                 "The user name userName is duplicated with an existing one."}
             });
         }
 
