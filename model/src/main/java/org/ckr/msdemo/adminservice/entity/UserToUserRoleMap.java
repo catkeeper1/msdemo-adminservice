@@ -29,11 +29,11 @@ public class UserToUserRoleMap extends BaseEntity {
     private UserRole userRole;
 
     @EmbeddedId
-    public UserToUserRoleMapKey getPrimaryKey() {
+    public UserToUserRoleMapKey getPk() {
         return primaryKey;
     }
 
-    public void setPrimaryKey(UserToUserRoleMapKey primaryKey) {
+    public void setPk(UserToUserRoleMapKey primaryKey) {
         this.primaryKey = primaryKey;
     }
 

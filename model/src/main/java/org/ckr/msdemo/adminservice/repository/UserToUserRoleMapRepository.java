@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserToUserRoleMapRepository extends JpaRepository<UserToUserRoleMap,
                                                                    UserToUserRoleMap.UserToUserRoleMapKey> {
+
+    Long deleteByPkUserName(String userName);
 }

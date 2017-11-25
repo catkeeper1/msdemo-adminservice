@@ -116,7 +116,7 @@ public class UserService {
         User user = new User();
 
 
-        validateUserInfo(userForm);
+        validateUserInfoForCreate(userForm);
 
         user.setUserName(userForm.getUserName());
         user.setUserDescription(userForm.getUserDescription());
@@ -130,7 +130,7 @@ public class UserService {
             UserToUserRoleMap.UserToUserRoleMapKey key = new UserToUserRoleMap.UserToUserRoleMapKey();
             key.setUserName(userForm.getUserName());
             key.setRoleCode(roleForm.getRoleCode());
-            userToUserRoleMap.setPrimaryKey(key);
+            userToUserRoleMap.setPk(key);
 
             this.userToUserRoleMapRepository.save(userToUserRoleMap);
         }
@@ -150,24 +150,29 @@ public class UserService {
     public void updateUserRole(String userName, List<String> roleCodes) {
         User user = userRepository.findByUserName(userName);
 
-        List<String> auditLogList = new ArrayList<>();
 
-        List<UserRole> updatedRoles = new ArrayList<UserRole>();
         ApplicationException applicationException = new ApplicationException("exceptions for user role update");
         if (user == null) {
             applicationException.addMessage("security.maintain_user.not_existing_user", new Object[]{userName});
-        } else {
-            validateRoleInfos(roleCodes, applicationException);
-            applicationException.throwThisIfValid();
-            for (String roleCode : roleCodes) {
-                UserRole userRole = userRoleRepository.findByRoleCode(roleCode);
-                if (userRole != null) {
-                    updatedRoles.add(userRole);
-                }
-            }
-            user.setRoles(updatedRoles);
-            userRepository.save(user);
         }
+        validateRoleInfos(roleCodes, applicationException);
+        applicationException.throwThisIfValid();
+
+        userToUserRoleMapRepository.deleteByPkUserName(userName);
+
+        for (String roleCode : roleCodes) {
+
+            UserToUserRoleMap userToUserRoleMap = new UserToUserRoleMap();
+            UserToUserRoleMap.UserToUserRoleMapKey key = new UserToUserRoleMap.UserToUserRoleMapKey();
+            key.setUserName(userName);
+            key.setRoleCode(roleCode);
+            userToUserRoleMap.setPk(key);
+
+            userToUserRoleMapRepository.save(userToUserRoleMap);
+        }
+
+        userRepository.save(user);
+
     }
 
     /**
@@ -195,7 +200,7 @@ public class UserService {
      *
      * @param userForm UserServiceForm
      */
-    private void validateUserInfo(UserServiceForm userForm) {
+    void validateUserInfoForCreate(UserServiceForm userForm) {
 
         ApplicationException applicationException =
                 new ApplicationException("exceptions for user creation.");
@@ -231,7 +236,7 @@ public class UserService {
 
     }
 
-    private void validateRoleInfos(List<String> roleCodes,
+    void validateRoleInfos(List<String> roleCodes,
                                    ApplicationException applicationException) {
         if (!CollectionUtils.isEmpty(roleCodes)) {
             for (String roleCode : roleCodes) {
@@ -240,7 +245,7 @@ public class UserService {
         }
     }
 
-    private void validateRoleInfo(String roleCode, ApplicationException applicationException) {
+    void validateRoleInfo(String roleCode, ApplicationException applicationException) {
         UserRole userRole = userRoleRepository.findByRoleCode(roleCode);
         if (userRole == null) {
             applicationException.addMessage("security.maintain_role.not_existing_role",roleCode);

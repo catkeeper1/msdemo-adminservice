@@ -23,9 +23,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-/**
- * Created by Administrator on 2017/10/15.
- */
+
 public class UserServiceMockedTests extends UserServiceMockedTestsBase{
 
     @Test
@@ -132,11 +130,69 @@ public class UserServiceMockedTests extends UserServiceMockedTestsBase{
             userToUserRoleMapRepository.save(userToUserRoleMap = withCapture());
             times = form.getRoles().size();
 
-            assertThat(userToUserRoleMap.getPrimaryKey().getUserName()).isEqualTo(form.getUserName());
+            assertThat(userToUserRoleMap.getPk().getUserName()).isEqualTo(form.getUserName());
 
-            assertThat(userToUserRoleMap.getPrimaryKey().getRoleCode())
+            assertThat(userToUserRoleMap.getPk().getRoleCode())
                     .isIn("role_a", "role_b");
 
+
+        }};
+    }
+
+    /**
+     * This is only a demo about partial mocking. In real project, this approach should be used if logic is too
+     * complicated and too many things need to mocked. In this example, partial mocking is used to mocked some private
+     * method so that the repository that called by those private methods do not need to be mocked.
+     */
+    @Test
+    public void testCreateUser_successfully2() {
+
+        final UserServiceForm form = new UserServiceForm();
+
+        form.setUserName("userName");
+        form.setUserDescription("userDescrption");
+        form.setLocked(Boolean.TRUE);
+        form.setPassword("password");
+
+        List<UserServiceForm.RoleServiceForm> roleForms = new ArrayList<>();
+
+        UserServiceForm.RoleServiceForm roleForm = new UserServiceForm.RoleServiceForm();
+        roleForm.setRoleCode("role_a");
+        roleForms.add(roleForm);
+
+        roleForm = new UserServiceForm.RoleServiceForm();
+        roleForm.setRoleCode("role_b");
+        roleForms.add(roleForm);
+
+        form.setRoles(roleForms);
+
+
+        //mock validateUserInfoForCreate so that do not need to mock the repositories used by it.
+        new Expectations(UserService.class) {{
+           userService.validateUserInfoForCreate((form));
+           times = 1;
+        }};
+
+        this.userService.createUser(form);
+
+        new Verifications() {{
+            User user;
+            userRepository.save(user = withCapture());
+            times = 1;
+
+            assertThat(user.getUserName()).isEqualTo(form.getUserName());
+            assertThat(user.getUserDescription()).isEqualTo(form.getUserDescription());
+            assertThat(user.getLocked()).isEqualTo(Boolean.FALSE);
+            assertThat(user.getPassword()).isNotNull();
+
+            UserToUserRoleMap userToUserRoleMap;
+            userToUserRoleMapRepository.save(userToUserRoleMap = withCapture());
+            times = form.getRoles().size();
+
+            assertThat(userToUserRoleMap.getPk().getUserName()).isEqualTo(form.getUserName());
+
+            assertThat(userToUserRoleMap.getPk().getRoleCode())
+                    .isIn("role_a", "role_b");
 
         }};
     }
@@ -273,5 +329,41 @@ public class UserServiceMockedTests extends UserServiceMockedTestsBase{
         }
     }
 
+    @Test
+    public void testupdateUserRole_successfully() {
 
+        String userName = "userA";
+        List<String> roles = newArrayList("roleA", "roleB");
+
+
+        new Expectations() {{
+            userRepository.findByUserName(userName);
+            result = new User();
+
+            userToUserRoleMapRepository.deleteByPkUserName(userName);
+            times = 1;
+
+
+        }};
+
+        userService.updateUserRole(userName, roles);
+
+        new Verifications() {{
+            User user;
+            userRepository.save(user = withCapture());
+            times = 1;
+
+
+            UserToUserRoleMap userToUserRoleMap;
+            userToUserRoleMapRepository.save(userToUserRoleMap = withCapture());
+            times = roles.size();
+
+
+            assertThat(userToUserRoleMap.getPk().getRoleCode())
+                    .isIn(roles);
+
+
+        }};
+
+    }
 }

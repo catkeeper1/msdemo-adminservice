@@ -3,6 +3,7 @@ package org.ckr.msdemo.adminservice.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.ckr.msdemo.adminservice.entity.UserRole;
+import org.ckr.msdemo.utility.annotation.DbUnitTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
-@Transactional
-public class UserRoleRepositoryTests {
+@DbUnitTest
+public class UserRoleRepositoryDbTests {
 
     @Autowired
     private UserRoleRepository userRoleRepository;
