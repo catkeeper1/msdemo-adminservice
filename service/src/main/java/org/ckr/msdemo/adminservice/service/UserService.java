@@ -215,7 +215,7 @@ public class UserService {
 
         if (!Strings.isNullOrEmpty(userForm.getUserName()) &&
             this.userRepository.findByUserName(userForm.getUserName()) != null) {
-            applicationException.addMessage("security.maintain_user.duplicated_user", userForm.getUserName());
+            applicationException.addMessage("security.maintain_user.duplicated_user", new Object[]{userForm.getUserName()});
         }
         validateRoleForms(userForm.getRoles(), applicationException);
 
@@ -248,7 +248,7 @@ public class UserService {
     void validateRoleInfo(String roleCode, ApplicationException applicationException) {
         UserRole userRole = userRoleRepository.findByRoleCode(roleCode);
         if (userRole == null) {
-            applicationException.addMessage("security.maintain_role.not_existing_role",roleCode);
+            applicationException.addMessage("security.maintain_role.not_existing_role",new Object[]{roleCode});
         }
     }
 
