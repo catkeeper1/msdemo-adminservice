@@ -9,7 +9,11 @@ spring:
     password: rootpassword
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1/adminservice
-
+  ldap:
+    embedded:
+      ldif: classpath:server.ldif
+      base-dn: dc=springframework,dc=org
+      port: 8389
 ressrv:
   publickey: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEPS0uGZGdksBcNzRuLq2/6RD7gQOzZi0WhcVKCF/8ePlXg991xlOHEy7IP9ZWA+svWCVM22cts7v6hOaDoSFp7A==
   publicKeyUrl:
