@@ -12,13 +12,13 @@ public class SampleTest {
     @Test
     public void testUserService() {
 
-//        UserClient userClient = (UserClient) BeanContainer.getBean(UserClient.class);
-//
-//        try {
-//            userClient.queryUserById("ABC");
-//        } catch (Exception exception) {
-//            exception.printStackTrace();
-//        }
+        UserClient userClient = (UserClient) BeanContainer.getBean(UserClient.class);
+
+        try {
+            userClient.queryUserById("ABC");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
 
     }
 }
