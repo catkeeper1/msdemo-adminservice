@@ -3,6 +3,7 @@ package org.ckr.msdemo.adminservice.apitest.config;
 import feign.Logger;
 import feign.Request;
 import feign.Response;
+import feign.auth.BasicAuthRequestInterceptor;
 import feign.codec.ErrorDecoder;
 import org.ckr.msdemo.exception.client.ExceptionDecoder;
 import org.slf4j.LoggerFactory;
@@ -76,4 +77,8 @@ public class FeignClientConfig {
         }
     }
 
+    @Bean
+    public BasicAuthRequestInterceptor basicAuthRequestInterceptor() {
+        return new BasicAuthRequestInterceptor("bob", "bobspassword");
+    }
 }

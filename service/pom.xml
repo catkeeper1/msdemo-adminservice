@@ -13,7 +13,7 @@
     <properties>
 
         <!-- skip report generation for findbugs, checkstyle... only generate project info report -->
-        <msdemo.skipReportGen>true</msdemo.skipReportGen>
+        <msdemo.skipReportGen>false</msdemo.skipReportGen>
         <!--<start-class>org.ckr.msdemo.adminservice.AdminServiceApplication</start-class>-->
     </properties>
 
@@ -112,7 +112,20 @@
             <groupId>org.jolokia</groupId>
             <artifactId>jolokia-core</artifactId>
         </dependency>
-
+        <!--ldap dependencies-->
+        <dependency>
+            <groupId>org.springframework.ldap</groupId>
+            <artifactId>spring-ldap-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-ldap</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.unboundid</groupId>
+            <artifactId>unboundid-ldapsdk</artifactId>
+        </dependency>
+        <!--ldap dependencies-->
     </dependencies>
 
     <build>
