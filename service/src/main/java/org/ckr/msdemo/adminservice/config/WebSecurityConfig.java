@@ -63,7 +63,9 @@ public class WebSecurityConfig {
     public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http.authorizeRequests()
+            http
+                    .csrf().disable()
+                    .authorizeRequests()
                     //for swagger UI, just by pass security checking.
                     .antMatchers("/swagger-ui.html",
                             "/swagger-resources",
@@ -76,7 +78,8 @@ public class WebSecurityConfig {
                     //if you want to disable the checking for development, please change it to permitAll().
                     .anyRequest().authenticated()
                     .and().formLogin()
-                    .and().httpBasic();
+                    .and().httpBasic()
+            ;
         }
 
         @Override
