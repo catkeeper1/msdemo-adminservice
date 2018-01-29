@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * REST api for User related information.
+ * Provide HTTP endpoints for user maintenance functions.
  *
  * @see UserService
  */
@@ -31,7 +31,9 @@ public class UserController {
 
 
     /**
-     * Query user detail info by user ID.
+     * Query user detail info by user ID. It should be used by screen that show
+     * the detail info of one user. Such as, detail user query screen or user detail maintain screen.
+     * It should call {@link UserService#queryUser(String)}.
      *
      * @param userName user name to get
      * @return UserDetailView
