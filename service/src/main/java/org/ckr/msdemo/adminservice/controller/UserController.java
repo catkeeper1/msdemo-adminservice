@@ -1,7 +1,6 @@
 package org.ckr.msdemo.adminservice.controller;
 
 import org.ckr.msdemo.adminservice.constant.FunctionPointConstant;
-import org.ckr.msdemo.adminservice.entity.User;
 import org.ckr.msdemo.adminservice.service.UserService;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
@@ -92,6 +91,7 @@ public class UserController {
      * @see UserService#queryUsers(String, String)
      */
     @RequestMapping(value = "/user/queryUsers", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(this, '"+FunctionPointConstant.QUERY_USERS +"')")
     public List<UserQueryView> queryUser(@RequestParam("userName") String userName,
                                           @RequestParam("userDesc") String userDesc) {
         return userService.queryUsers(userName, userDesc);
