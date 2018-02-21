@@ -23,6 +23,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 /**
  * Created by Administrator on 2017/9/3.
+ * This is obsoleted. Should use @EnableJWTTokenAuthentication
  */
 //@EnableResourceServer
 //@Configuration
