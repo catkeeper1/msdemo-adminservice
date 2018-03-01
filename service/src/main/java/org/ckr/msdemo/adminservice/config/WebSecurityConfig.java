@@ -76,7 +76,7 @@ public class WebSecurityConfig {
                     .antMatchers("/pub/**/*").permitAll()
                     //for all other endpoints, cannot access until authenticated.
                     //if you want to disable the checking for development, please change it to permitAll().
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
                     .and().formLogin()
                     .and().httpBasic()
             ;
