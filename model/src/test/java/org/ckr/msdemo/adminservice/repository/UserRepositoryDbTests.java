@@ -47,16 +47,16 @@ public class UserRepositoryDbTests {
         userGroup.setGroupCode("test_group");
 
         this.userGroupRepository.save(userGroup);
-        this.userGroupRepository.flush();
+        //this.userGroupRepository.flush();
 
-        user.setGroup(userGroup);
-        this.userRepository.save(user);
+        //user.setGroup(userGroup);
+        //this.userRepository.save(user);
 
-        testEntityManager.flush();
-        testEntityManager.clear();
+        //testEntityManager.flush();
+        //testEntityManager.clear();
         user = this.userRepository.findByUserName(user.getUserName());
 
-
+        this.userGroupRepository.findAll();
 
         userGroup = user.getGroup();
 
