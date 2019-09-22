@@ -1,11 +1,14 @@
 package org.ckr.msdemo.adminservice.controller;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.ckr.msdemo.adminservice.constant.FunctionPointConstant;
 import org.ckr.msdemo.adminservice.service.UserService;
 import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.ckr.msdemo.adminservice.valueobject.UserQueryView;
 import org.ckr.msdemo.adminservice.valueobject.UserServiceForm;
 import org.ckr.msdemo.adminservice.valueobject.UserWithRole;
+import org.ckr.msdemo.exception.valueobject.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +42,7 @@ public class UserController {
      * @see UserService#queryUser(String)
      */
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
+    //@ApiResponses({@ApiResponse(code = 500, message = "Error message", response = ErrorResponse.class)})
     public UserDetailView queryUserById(@PathVariable("userId") String userName) {
         return this.userService.queryUser(userName);
     }
