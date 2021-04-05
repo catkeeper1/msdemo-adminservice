@@ -1,7 +1,11 @@
+import feign.codec.Decoder;
 import org.ckr.msdemo.adminservice.apitest.BeanContainer;
 import org.ckr.msdemo.adminservice.client.UserClient;
+import org.ckr.msdemo.adminservice.valueobject.UserDetailView;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.Base64;
 
 /**
  * Created by Administrator on 2017/8/8.
@@ -14,11 +18,13 @@ public class SampleTest {
 
     @Test
     public void testUserService() {
-
         UserClient userClient = (UserClient) BeanContainer.getBean(UserClient.class);
 
         try {
-            userClient.queryUserById("ABC");
+            UserDetailView result = userClient.queryUserById("ABC");
+
+            System.out.println(result);
+
         } catch (Exception exception) {
             exception.printStackTrace();
         }

@@ -1,16 +1,26 @@
 package org.ckr.msdemo.adminservice.apitest.config;
 
+import feign.FeignException;
 import feign.Logger;
 import feign.Request;
 import feign.Response;
 import feign.auth.BasicAuthRequestInterceptor;
+import feign.codec.DecodeException;
+import feign.codec.Decoder;
 import feign.codec.ErrorDecoder;
+import org.ckr.msdemo.exception.SystemException;
 import org.ckr.msdemo.exception.client.ExceptionDecoder;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
+import org.springframework.cloud.netflix.feign.support.SpringDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.Type;
 
 /**
  * Created by Administrator on 2017/8/12.
@@ -21,6 +31,49 @@ public class FeignClientConfig {
     @Bean
     public ErrorDecoder feignClientErrorDecoder() {
         return new ExceptionDecoder();
+    }
+
+    @Bean
+    public Decoder decoder (ObjectFactory<HttpMessageConverters> messageConverters) {
+
+        final SpringDecoder decoder = new SpringDecoder(messageConverters);
+
+        //for decoder testing only. Should not used in production code
+        return new Decoder() {
+            @Override
+            public Object decode(Response response, Type type) throws IOException, DecodeException, FeignException {
+
+
+                String json = readJsonFromBody(response.body());
+
+                System.out.println("decoded json: " + json);
+
+                return decoder.decode(response, type);
+            }
+
+            private String readJsonFromBody(Response.Body body) {
+
+                final char[] buffer = new char[1024];
+                final StringBuilder out = new StringBuilder();
+
+                try (Reader reader = new InputStreamReader(body.asInputStream(), "UTF-8")) {
+
+                    while (true) {
+                        int rsz = reader.read(buffer, 0, buffer.length);
+
+                        if (rsz < 0) {
+                            break;
+                        }
+
+                        out.append(buffer, 0, rsz);
+                    }
+                } catch (IOException ioException) {
+                    throw new SystemException(ioException);
+                }
+                return out.toString();
+
+            }
+        };
     }
 
     @Bean
